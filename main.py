@@ -5,9 +5,7 @@ from scipy.special import gamma
 
 def levy(n, m, beta):
     num = gamma(1 + beta) * np.sin(np.pi * beta / 2)  # Used for Numerator
-    den = (
-        gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2)
-    )  # Used for Denominator
+    den = gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2)  # Used for Denominator
 
     sigma_u = (num / den) ** (1 / beta)  # Standard deviation
 
@@ -57,9 +55,7 @@ def GOA2(SearchAgents_no, Max_iter, lb, ub, dim, fobj):
             Flag4ub = gazelle[i, :] > ub
             Flag4lb = gazelle[i, :] < lb
             gazelle[i, :] = (
-                (gazelle[i, :] * ~(Flag4ub + Flag4lb))
-                + ub * Flag4ub
-                + lb * Flag4lb
+                (gazelle[i, :] * ~(Flag4ub + Flag4lb)) + ub * Flag4ub + lb * Flag4lb
             )
             fitness[i] = fobj(gazelle[i, :])
 
@@ -94,33 +90,25 @@ def GOA2(SearchAgents_no, Max_iter, lb, ub, dim, fobj):
                     mu = 1
 
                 if r > 0.5:
-                    stepsize[i, j] = RB[i, j] * (
-                        Elite[i, j] - RB[i, j] * gazelle[i, j]
-                    )
+                    stepsize[i, j] = RB[i, j] * (Elite[i, j] - RB[i, j] * gazelle[i, j])
                     gazelle[i, j] = gazelle[i, j] + s * R * stepsize[i, j]
                 else:
                     if i > gazelle.shape[0] / 2:
                         stepsize[i, j] = RB[i, j] * (
                             RL[i, j] * Elite[i, j] - gazelle[i, j]
                         )
-                        gazelle[i, j] = (
-                            Elite[i, j] + S * mu * CF * stepsize[i, j]
-                        )
+                        gazelle[i, j] = Elite[i, j] + S * mu * CF * stepsize[i, j]
                     else:
                         stepsize[i, j] = RL[i, j] * (
                             Elite[i, j] - RL[i, j] * gazelle[i, j]
                         )
-                        gazelle[i, j] = (
-                            gazelle[i, j] + S * mu * R * stepsize[i, j]
-                        )
+                        gazelle[i, j] = gazelle[i, j] + S * mu * R * stepsize[i, j]
 
         for i in range(gazelle.shape[0]):
             Flag4ub = gazelle[i, :] > ub
             Flag4lb = gazelle[i, :] < lb
             gazelle[i, :] = (
-                (gazelle[i, :] * ~(Flag4ub + Flag4lb))
-                + ub * Flag4ub
-                + lb * Flag4lb
+                (gazelle[i, :] * ~(Flag4ub + Flag4lb)) + ub * Flag4ub + lb * Flag4lb
             )
             fitness[i] = fobj(gazelle[i, :])
 
@@ -143,8 +131,7 @@ def GOA2(SearchAgents_no, Max_iter, lb, ub, dim, fobj):
         if np.random.rand() < PSRs:
             U = np.random.rand(SearchAgents_no, dim) < PSRs
             gazelle = gazelle + CF * (
-                (Xmin + np.random.rand(SearchAgents_no, dim) * (Xmax - Xmin))
-                * U
+                (Xmin + np.random.rand(SearchAgents_no, dim) * (Xmax - Xmin)) * U
             )
         else:
             r = np.random.rand()
@@ -164,16 +151,25 @@ def rastrigin(x):
     return 10 * len(x) + sum(x**2 - 10 * np.cos(2 * np.pi * x))
 
 
+def squareTest(x):
+    return sum(x**2)
+
+
+def sumMulTest(x):
+    return sum(abs(x)) + np.prod(abs(x))
+
+
 SearchAgents_no = 80
 Max_iteration = 80
 
-lb = -5.12
-ub = 5.12
-dim = 20
-fobj = rastrigin
+lb = -10
+ub = 10
+dim = 30
+fobj = sumMulTest
 Best_score, Best_pos, Convergence_curve = GOA2(
     SearchAgents_no, Max_iteration, lb, ub, dim, fobj
 )
 
+# print(f"convergence curve:  {Convergence_curve}")
 print(f"best solution: {Best_pos}")
 print(f"best optimal value: {Best_score}")
