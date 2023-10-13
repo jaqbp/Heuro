@@ -20,7 +20,6 @@ def levy(n, m, beta):
 def initialization(SearchAgents_no, dim, ub, lb):
     # Initialize an array to hold positions
     Positions = np.zeros((SearchAgents_no, dim))
-
     # If the boundaries of all variables are equal
     Positions = np.random.rand(SearchAgents_no, dim) * (ub - lb) + lb
 
@@ -147,6 +146,9 @@ def GOA2(SearchAgents_no, Max_iter, lb, ub, dim, fobj):
     return Top_gazelle_fit, Top_gazelle_pos, Convergence_curve
 
 
+# Algorithms to test the heuristic:
+
+
 def rastrigin(x):
     return 10 * len(x) + sum(x**2 - 10 * np.cos(2 * np.pi * x))
 
@@ -159,13 +161,17 @@ def sumMulTest(x):
     return sum(abs(x)) + np.prod(abs(x))
 
 
-SearchAgents_no = 80
-Max_iteration = 80
+# Params for heuristic algorithm (higher values == higher chance of finding better solution)
+SearchAgents_no = 10
+Max_iteration = 20
 
+# Params for the testing algorithm
 lb = -10
 ub = 10
 dim = 30
 fobj = sumMulTest
+
+
 Best_score, Best_pos, Convergence_curve = GOA2(
     SearchAgents_no, Max_iteration, lb, ub, dim, fobj
 )
