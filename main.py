@@ -161,6 +161,27 @@ def sumMulTest(x):
     return sum(abs(x)) + np.prod(abs(x))
 
 
+def rosenbrock(x):
+    sum = 0
+    for i in range(len(x) - 1):
+        sum += 100 * (x[i + 1] - x[i] ** 2) ** 2 + (1 - x[i]) ** 2
+    return sum
+
+
+def bukin_function_n6(x):
+    term1 = 100 * np.sqrt(abs(x[1] - 0.01 * x[0] ** 2))
+    term2 = 0.01 * abs(x[0] + 10)
+    result = term1 + term2
+    return result
+
+
+def himmelblau(x):
+    term1 = (x[0]**2 + x[1] - 11)**2
+    term2 = (x[0] + x[1]**2 - 7)**2
+    result = term1 + term2
+    return result
+
+
 # Params for heuristic algorithm (higher values == higher chance of finding better solution)
 SearchAgents_no = 10
 Max_iteration = 20
