@@ -188,6 +188,7 @@ class GazelleOptimizationAlgorithm:
 
 
 if __name__ == "__main__":
+    test_functions = []
     rastrigin = TestFunction(
         np.array([-5.12]), np.array([5.12]), 30, rastrigin, "rastrigin"
     )
@@ -200,30 +201,45 @@ if __name__ == "__main__":
     himmelblau = TestFunction(
         np.array([-5]), np.array([5]), 2, himmelblau, "himmelblau"
     )
+    test_functions.append(rastrigin)
+    test_functions.append(rosenbrock)
+    test_functions.append(bukin)
+    test_functions.append(himmelblau)
 
     # Params for heuristic algorithm (higher values == higher chance of finding better solution)
     N = [10, 20, 40, 80]
-    I = [5, 10]
+    I = [5, 10, 20, 40, 80]
     TESTS = 10
 
     # Dataframe to store our data in the table and then save it to excel file
-    data = {"N": [], "I": [], "Best X": [], "Best Y": [], "For function": []}
+    data = {
+        "For function": [],
+        "Number of params": [],
+        "N": [],
+        "I": [],
+        "Found minimum": [],
+        "Goal function value": [],
+    }
 
-    for n in N:
-        for i in I:
-            best_y = math.inf
-            best_X = None
-            for _ in range(TESTS):
-                y, X = GOA2(n, i, rosenbrock)
-                if y < best_y:
-                    best_y = y
-                    best_X = X[:]
-            data["N"].append(n)
-            data["I"].append(i)
-            data["Best X"].append(best_X)
-            data["Best Y"].append(best_y)
-            data["For function"].append(rosenbrock.name)
-            print(f"N: {n}, I: {i}\nbest_y: {best_y}\nbest_X: {best_X}\n\n")
+    for test_func in test_functions:
+        for n in N:
+            for i in I:
+                best_y = math.inf
+                best_X = None
+                for _ in range(TESTS):
+                    y, X = GOA2(n, i, test_func)
+                    if y < best_y:
+                        best_y = y
+                        best_X = X[:]
+                data["For function"].append(test_func.name)
+                data["Number of params"].append(test_func.dim)
+                data["N"].append(n)
+                data["I"].append(i)
+                data["Found minimum"].append(best_X)
+                data["Goal function value"].append(best_y)
+
+                print(f"N: {n}, I: {i}\nbest_y: {best_y}\nbest_X: {best_X}\n\n")
 
     df = pd.DataFrame(data)
+    df.to_excel("output.xlsx", index=False)
     print(df)
