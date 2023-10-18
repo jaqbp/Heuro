@@ -8,6 +8,10 @@ from functions import (
     rosenbrock,
     bukin_function_n6,
     himmelblau,
+    f1,
+    f2,
+    f3,
+    f4
 )
 import math
 import csv
@@ -201,10 +205,26 @@ if __name__ == "__main__":
     himmelblau = TestFunction(
         np.array([-5]), np.array([5]), 2, himmelblau, "himmelblau"
     )
+    f1 = TestFunction(
+        np.array([-100]), np.array([100]), 30, f1, "f1"
+    )
+    f2 = TestFunction(
+        np.array([-500]), np.array([500]), 30, f2, "f2"
+    )
+    f3 = TestFunction(
+        np.array([-600]), np.array([600]), 30, f3, "f3"
+    )
+    f4 = TestFunction(
+        np.array([-32]), np.array([32]), 30, f4, "f4"
+    )
     test_functions.append(rastrigin)
     test_functions.append(rosenbrock)
     test_functions.append(bukin)
     test_functions.append(himmelblau)
+    test_functions.append(f1)
+    test_functions.append(f2)
+    test_functions.append(f3)
+    test_functions.append(f4)
 
     # Params for heuristic algorithm (higher values == higher chance of finding better solution)
     N = [10, 20, 40, 80]
