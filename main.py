@@ -1,8 +1,17 @@
 import numpy as np
 import numpy.matlib
 from scipy.special import gamma
-from functions import rastrigin, sumMulTest, squareTest, rosenbrock, bukin_function_n6, himmelblau
+from functions import (
+    rastrigin,
+    sumMulTest,
+    squareTest,
+    rosenbrock,
+    bukin_function_n6,
+    himmelblau,
+)
 import math
+import csv
+import pandas as pd
 
 
 def levy(n, m, beta):
@@ -26,7 +35,7 @@ def initialization(SearchAgents_no, dim, ub, lb):
     if len(ub) == 1 and len(lb) == 1:
         Positions = np.random.rand(SearchAgents_no, dim) * (ub - lb) + lb
     else:
-    # If each variable has different lb and ub
+        # If each variable has different lb and ub
         for i in range(dim):
             ub_i = ub[i]
             lb_i = lb[i]
@@ -57,7 +66,9 @@ def GOA2(SearchAgents_no, Max_iter, test_function):
             Flag4ub = gazelle[i, :] > test_function.ub
             Flag4lb = gazelle[i, :] < test_function.lb
             gazelle[i, :] = (
-                (gazelle[i, :] * ~(Flag4ub + Flag4lb)) + test_function.ub * Flag4ub + test_function.lb * Flag4lb
+                (gazelle[i, :] * ~(Flag4ub + Flag4lb))
+                + test_function.ub * Flag4ub
+                + test_function.lb * Flag4lb
             )
             fitness[i] = test_function.fobj(gazelle[i, :])
 
@@ -110,7 +121,9 @@ def GOA2(SearchAgents_no, Max_iter, test_function):
             Flag4ub = gazelle[i, :] > test_function.ub
             Flag4lb = gazelle[i, :] < test_function.lb
             gazelle[i, :] = (
-                (gazelle[i, :] * ~(Flag4ub + Flag4lb)) + test_function.ub * Flag4ub + test_function.lb * Flag4lb
+                (gazelle[i, :] * ~(Flag4ub + Flag4lb))
+                + test_function.ub * Flag4ub
+                + test_function.lb * Flag4lb
             )
             fitness[i] = test_function.fobj(gazelle[i, :])
 
@@ -151,6 +164,7 @@ def GOA2(SearchAgents_no, Max_iter, test_function):
 
 # Algorithms to test the heuristic:
 
+
 class TestFunction:
     def __init__(self, lb: int, ub: int, dim: int, fobj, name: str):
         self.lb = lb[:]
@@ -174,15 +188,26 @@ class GazelleOptimizationAlgorithm:
 
 
 if __name__ == "__main__":
-    rastrigin = TestFunction(np.array([-5.12]), np.array([5.12]), 30, rastrigin, "rastrigin")
-    rosenbrock = TestFunction(np.array([-5]), np.array([5]), 30, rosenbrock, "rosenbrock")
-    bukin = TestFunction(np.array([-15, -3]), np.array([-5, 3]), 2, bukin_function_n6, "bukin")
-    himmelblau = TestFunction(np.array([-5]), np.array([5]), 2, himmelblau, "himmelblau")
+    rastrigin = TestFunction(
+        np.array([-5.12]), np.array([5.12]), 30, rastrigin, "rastrigin"
+    )
+    rosenbrock = TestFunction(
+        np.array([-5]), np.array([5]), 30, rosenbrock, "rosenbrock"
+    )
+    bukin = TestFunction(
+        np.array([-15, -3]), np.array([-5, 3]), 2, bukin_function_n6, "bukin"
+    )
+    himmelblau = TestFunction(
+        np.array([-5]), np.array([5]), 2, himmelblau, "himmelblau"
+    )
 
     # Params for heuristic algorithm (higher values == higher chance of finding better solution)
     N = [10, 20, 40, 80]
-    I = [5, 10, 20, 40, 60, 80]
+    I = [5, 10]
     TESTS = 10
+
+    # Dataframe to store our data in the table and then save it to excel file
+    data = {"N": [], "I": [], "Best X": [], "Best Y": [], "For function": []}
 
     for n in N:
         for i in I:
@@ -193,4 +218,12 @@ if __name__ == "__main__":
                 if y < best_y:
                     best_y = y
                     best_X = X[:]
+            data["N"].append(n)
+            data["I"].append(i)
+            data["Best X"].append(best_X)
+            data["Best Y"].append(best_y)
+            data["For function"].append(rosenbrock.name)
             print(f"N: {n}, I: {i}\nbest_y: {best_y}\nbest_X: {best_X}\n\n")
+
+    df = pd.DataFrame(data)
+    print(df)
