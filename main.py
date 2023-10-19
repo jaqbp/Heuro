@@ -11,7 +11,7 @@ from functions import (
     f1,
     f2,
     f3,
-    f4
+    f4,
 )
 import math
 import csv
@@ -106,7 +106,7 @@ def GOA2(SearchAgents_no, Max_iter, test_function):
                 else:
                     mu = 1
 
-                if r > 0.5:
+                if r < 0.5:
                     stepsize[i, j] = RB[i, j] * (Elite[i, j] - RB[i, j] * gazelle[i, j])
                     gazelle[i, j] = gazelle[i, j] + s * R * stepsize[i, j]
                 else:
@@ -205,18 +205,10 @@ if __name__ == "__main__":
     himmelblau = TestFunction(
         np.array([-5]), np.array([5]), 2, himmelblau, "himmelblau"
     )
-    f1 = TestFunction(
-        np.array([-100]), np.array([100]), 30, f1, "f1"
-    )
-    f2 = TestFunction(
-        np.array([-500]), np.array([500]), 30, f2, "f2"
-    )
-    f3 = TestFunction(
-        np.array([-600]), np.array([600]), 30, f3, "f3"
-    )
-    f4 = TestFunction(
-        np.array([-32]), np.array([32]), 30, f4, "f4"
-    )
+    f1 = TestFunction(np.array([-100]), np.array([100]), 30, f1, "f1")
+    f2 = TestFunction(np.array([-500]), np.array([500]), 30, f2, "f2")
+    f3 = TestFunction(np.array([-600]), np.array([600]), 30, f3, "f3")
+    f4 = TestFunction(np.array([-32]), np.array([32]), 30, f4, "f4")
     test_functions.append(rastrigin)
     test_functions.append(rosenbrock)
     test_functions.append(bukin)
@@ -238,7 +230,9 @@ if __name__ == "__main__":
         "N": [],
         "I": [],
         "Found minimum": [],
-        "Goal function value": [],
+        "Goal function best value": [],
+        "Goal function worst value": [],
+        "Standard deviation of goal function value": [],
     }
 
     for test_func in test_functions:
@@ -246,8 +240,10 @@ if __name__ == "__main__":
             for i in I:
                 best_y = math.inf
                 best_X = None
+                curr_ys = []
                 for _ in range(TESTS):
                     y, X = GOA2(n, i, test_func)
+                    curr_ys.append(y)
                     if y < best_y:
                         best_y = y
                         best_X = X[:]
@@ -256,8 +252,11 @@ if __name__ == "__main__":
                 data["N"].append(n)
                 data["I"].append(i)
                 data["Found minimum"].append(best_X)
-                data["Goal function value"].append(best_y)
-
+                data["Goal function best value"].append(best_y)
+                data["Goal function worst value"].append(np.max(curr_ys))
+                data["Standard deviation of goal function value"].append(
+                    np.std(curr_ys) / np.mean(curr_ys) * 100
+                )
                 print(f"N: {n}, I: {i}\nbest_y: {best_y}\nbest_X: {best_X}\n\n")
 
     df = pd.DataFrame(data)
