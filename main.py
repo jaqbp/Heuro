@@ -218,7 +218,7 @@ if __name__ == "__main__":
     test_functions.append(f3)
     test_functions.append(f4)
 
-    # Params for heuristic algorithm (higher values == higher chance of finding better solution)
+    # Params for the heuristic algorithm (higher values == higher chance of finding better solution)
     N = [10, 20, 40, 80]
     I = [5, 10, 20, 40, 80]
     TESTS = 10
@@ -229,9 +229,12 @@ if __name__ == "__main__":
         "Number of params": [],
         "N": [],
         "I": [],
+        "Param 'PSRs'": [],
+        "Param 'S'": [],
         "Found minimum": [],
         "Goal function best value": [],
         "Goal function worst value": [],
+        "Standard deviation of the parameters": [],
         "Standard deviation of goal function value": [],
     }
 
@@ -251,9 +254,12 @@ if __name__ == "__main__":
                 data["Number of params"].append(test_func.dim)
                 data["N"].append(n)
                 data["I"].append(i)
+                data["Param 'PSRs'"].append(0.34)
+                data["Param 'S'"].append(0.88)
                 data["Found minimum"].append(best_X)
                 data["Goal function best value"].append(best_y)
                 data["Goal function worst value"].append(np.max(curr_ys))
+                data["Standard deviation of the parameters"].append(np.std(curr_ys))
                 data["Standard deviation of goal function value"].append(
                     np.std(curr_ys) / np.mean(curr_ys) * 100
                 )
