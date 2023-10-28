@@ -52,7 +52,6 @@ def GOA2(SearchAgents_no, Max_iter, test_function):
     dim = test_function.dim
     Top_gazelle_pos = np.zeros(dim)
     Top_gazelle_fit = np.inf
-    # Convergence_curve = np.zeros(Max_iter)
     stepsize = np.zeros((SearchAgents_no, dim))
     fitness = np.inf * np.ones(SearchAgents_no)
 
@@ -161,9 +160,8 @@ def GOA2(SearchAgents_no, Max_iter, test_function):
             )
 
         Iter = Iter + 1
-        # Convergence_curve[Iter - 1] = Top_gazelle_fit
 
-    return Top_gazelle_fit, Top_gazelle_pos  # Convergence_curve
+    return Top_gazelle_fit, Top_gazelle_pos
 
 
 # Algorithms to test the heuristic:
@@ -223,7 +221,6 @@ if __name__ == "__main__":
     I = [5, 10, 20, 40, 80]
     TESTS = 10
 
-    # Dataframe to store our data in the table and then save it to excel file
     data = {
         "For function": [],
         "Number of params": [],
@@ -265,6 +262,7 @@ if __name__ == "__main__":
                 )
                 print(f"N: {n}, I: {i}\nbest_y: {best_y}\nbest_X: {best_X}\n\n")
 
+    # Dataframe to store our data in the table and then save it to excel file
     df = pd.DataFrame(data)
     df.to_excel("output.xlsx", index=False)
     print(df)
