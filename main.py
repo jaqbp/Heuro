@@ -33,13 +33,10 @@ def levy(n, m, beta):
 
 
 def initialization(SearchAgents_no, dim, ub, lb):
-    # Initialize an array to hold positions
     Positions = np.zeros((SearchAgents_no, dim))
-    # If the boundaries of all variables are equal
     if len(ub) == 1 and len(lb) == 1:
         Positions = np.random.rand(SearchAgents_no, dim) * (ub - lb) + lb
     else:
-        # If each variable has different lb and ub
         for i in range(dim):
             ub_i = ub[i]
             lb_i = lb[i]
@@ -165,7 +162,6 @@ def GOA2(SearchAgents_no, Max_iter, test_function):
 
 
 # Algorithms to test the heuristic:
-
 
 class TestFunction:
     def __init__(self, lb: int, ub: int, dim: int, fobj, name: str):
