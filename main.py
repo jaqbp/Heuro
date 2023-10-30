@@ -232,7 +232,7 @@ if __name__ == "__main__":
         "Goal function best value": [],
         "Goal function worst value": [],
         "Standard deviation of the parameters": [],
-        "Standard deviation of goal function value": [],
+        "Coefficient of variation of goal function value": [],
     }
 
     for test_func in test_functions:
@@ -241,12 +241,19 @@ if __name__ == "__main__":
                 best_y = math.inf
                 best_X = None
                 curr_ys = []
+                all_curr_X = []
                 for _ in range(TESTS):
                     y, X = GOA2(n, i, test_func)
                     curr_ys.append(y)
+                    all_curr_X.append(X[:])
                     if y < best_y:
                         best_y = y
                         best_X = X[:]
+                std_deviations_of_Xs = []
+                stacked_Xs = np.vstack(all_curr_X)
+                for j in range(stacked_Xs.shape[1]):
+                    std_dev = np.std(stacked_Xs[:, j])
+                    std_deviations_of_Xs.append(std_dev)
                 data["For function"].append(test_func.name)
                 data["Number of params"].append(test_func.dim)
                 data["N"].append(n)
@@ -256,10 +263,13 @@ if __name__ == "__main__":
                 data["Found minimum"].append(best_X)
                 data["Goal function best value"].append(best_y)
                 data["Goal function worst value"].append(np.max(curr_ys))
-                data["Standard deviation of the parameters"].append(np.std(curr_ys))
-                data["Standard deviation of goal function value"].append(
+                data["Standard deviation of the parameters"].append(
+                    std_deviations_of_Xs
+                )
+                data["Coefficient of variation of goal function value"].append(
                     np.std(curr_ys) / np.mean(curr_ys) * 100
                 )
+                print(std_deviations_of_Xs)
                 print(f"N: {n}, I: {i}\nbest_y: {best_y}\nbest_X: {best_X}\n\n")
 
     # Dataframe to store our data in the table and then save it to excel file
