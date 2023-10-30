@@ -232,6 +232,7 @@ if __name__ == "__main__":
         "Goal function best value": [],
         "Goal function worst value": [],
         "Standard deviation of the parameters": [],
+        "Standard deviation of the goal function value": [],
         "Coefficient of variation of goal function value": [],
     }
 
@@ -266,9 +267,13 @@ if __name__ == "__main__":
                 data["Standard deviation of the parameters"].append(
                     std_deviations_of_Xs
                 )
+                data["Standard deviation of the goal function value"].append(
+                    np.std(curr_ys)
+                )
                 data["Coefficient of variation of goal function value"].append(
                     np.std(curr_ys) / np.mean(curr_ys) * 100
                 )
+
                 print(std_deviations_of_Xs)
                 print(f"N: {n}, I: {i}\nbest_y: {best_y}\nbest_X: {best_X}\n\n")
 
