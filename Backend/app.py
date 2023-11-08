@@ -1,10 +1,14 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
 @app.route('/save_state', methods=['POST'])
 def save_state():
-    # Logika zapisu stanu do pliku tekstowego, analogia do interfejsu IStateWriter
+    data = request.json
+    if not data:
+        return jsonify({'error': 'Invalid data'})
+
+    # Logika zapisu stanu do pliku tekstowego na podstawie przesłanych danych
     pass
 
 @app.route('load_state', methods=['GET'])
@@ -14,6 +18,10 @@ def load_state():
 
 @app.route('/generate_pdf_report', methods=['POST'])
 def generate_pdf_report():
+    data = request.json
+    if not data:
+        return jsonify({'error': 'Invalid data'})
+    
     # Logika generowania pliku PDF, analogia do intefejsu IGeneratePDFReport
     pass
 
