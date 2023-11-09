@@ -7,15 +7,15 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #222; /* Ciemne tło dla całej strony */
-    color: #fff; /* Biały kolor tekstu */
+    background-color: #222; 
+    color: #fff; 
 }
 
 header, footer {
     text-align: center;
     padding: 1em;
-    background-color: #444; /* Ciemne tło dla nagłówka i stopki */
-    color: #fff; /* Biały kolor tekstu w nagłówku i stopce */
+    background-color: #444; 
+    color: #fff; 
 }
 
 ul {
@@ -24,7 +24,7 @@ ul {
 }
 
 ul li {
-    background: #333; /* Ciemne tło dla listy elementów */
+    background: #333; 
     margin: 8px 0;
     padding: 8px;
     border-radius: 4px;
@@ -39,26 +39,26 @@ ul li {
 }
 
 .box {
-    border: 1px solid #888; /* Kolor obramowania */
+    border: 1px solid #888; 
     width: 45%;
     padding: 1em;
     box-sizing: border-box;
-    background-color: #555; /* Ciemne tło wewnątrz pudełka */
-    color: #fff; /* Biały kolor tekstu w pudełku */
+    background-color: #555; 
+    color: #fff; 
 }
 
 .box h2 {
-    border-bottom: 1px solid #888; /* Kolor obramowania dla nagłówka */
+    border-bottom: 1px solid #888; 
     padding-bottom: 0.5em;
 }
 
 .box label {
     display: block;
     margin-bottom: 8px;
-    background: #333; /* Ciemne tło dla etykiety */
+    background: #333; 
     padding: 8px;
     border-radius: 4px;
-    color: #fff; /* Biały kolor tekstu w etykiecie */
+    color: #fff; 
 }
 
 .box input[type="checkbox"] {
