@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@100&display=swap');
+
+body {
+    font-family: 'Prompt', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222; 
+    color: #fff; 
+}
+
+header, footer {
+    text-align: center;
+    padding: 1em;
+    background-color: #444; 
+    color: #fff; 
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background: #333; 
+    margin: 8px 0;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+#main-content {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    padding: 2em;
+}
+
+.box {
+    border: 1px solid #888; 
+    width: 45%;
+    padding: 1em;
+    box-sizing: border-box;
+    background-color: #555; 
+    color: #fff; 
+}
+
+.box h2 {
+    border-bottom: 1px solid #888; 
+    padding-bottom: 0.5em;
+}
+
+.box label {
+    display: block;
+    margin-bottom: 8px;
+    background: #333; 
+    padding: 8px;
+    border-radius: 4px;
+    color: #fff; 
+}
+
+.box input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+footer p {
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    #main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .box {
+        width: 90%;
+        margin-bottom: 1em;
+    }
+}
