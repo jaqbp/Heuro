@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Prompt:wght@100&family=Raleway:wght@100&display=swap');
 
 body {
-    font-family: 'Prompt', sans-serif;
+    font-family: 'Raleway', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -14,8 +14,16 @@ body {
 header, footer {
     text-align: center;
     padding: 1em;
-    background-color: #444; 
+    background-color: #1b1b1b; 
     color: #fff; 
+}
+
+h1 {
+    font-size: 6vh;
+}
+
+p {
+    font-size: 2vh;
 }
 
 ul {
@@ -35,15 +43,41 @@ ul li {
     display: flex;
     justify-content: space-around;
     align-items: start;
+    flex-wrap: wrap; 
     padding: 2em;
 }
 
+.forward-button {
+    padding: 20px 40px;
+    font-size: 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px; 
+    transition: background-color 0.3s, transform 0.3s; 
+}
+
+.forward-button:hover {
+    background-color: #555; 
+    transform: scale(1.05); 
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; 
+    padding-top: 1em; 
+    padding-right: 4em;
+    padding-bottom: 1em;
+}
+
 .box {
-    border: 1px solid #888; 
+    border: 1px solid #666; 
     width: 45%;
     padding: 1em;
     box-sizing: border-box;
-    background-color: #555; 
+    background-color: #333; 
     color: #fff; 
 }
 
@@ -78,5 +112,11 @@ footer p {
     .box {
         width: 90%;
         margin-bottom: 1em;
+    }
+
+    @media (max-width: 768px) {
+        .button-container {
+            justify-content: center;
+        }
     }
 }
