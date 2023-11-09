@@ -21,70 +21,82 @@ const algorithms = [
   { name: "Algorytm optymalizacji kolonii nietoperzy" },
 ];
 
+const selectedFunctions = new Set();
+const selectedAlgorithms = new Set();
+
+const appendCheckboxToParent = (parent, text, checkboxValue, type) => {
+  const label = document.createElement("label");
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.value = checkboxValue;
+  checkbox.addEventListener("change", (e) => {
+    const checked = e.currentTarget.checked;
+    if (type === "function") {
+      checked ? selectedFunctions.add(text) : selectedFunctions.delete(text);
+    } else {
+      checked ? selectedAlgorithms.add(text) : selectedAlgorithms.delete(text);
+    }
+    displaySelectedOptions();
+  });
+
+  label.appendChild(checkbox);
+  label.appendChild(document.createTextNode(text));
+  parent.appendChild(label);
+};
+
 // Funkcja do generowania listy funkcji testowych
 function generateTestFunctionsList() {
   const listContainer = document.getElementById("test-functions-list");
-  testFunctions.forEach(function (func) {
-    const label = document.createElement("label");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.value = func.name;
 
-    label.appendChild(checkbox);
-    label.appendChild(
-      document.createTextNode(` ${func.name} - ${func.formula}`),
-    );
-    listContainer.appendChild(label);
-  });
+  testFunctions.forEach((func) =>
+    appendCheckboxToParent(
+      listContainer,
+      ` ${func.name} - ${func.formula}`,
+      func.name,
+      "function",
+    ),
+  );
 }
 
 // Funkcja do generowania listy algorytmów
 function generateAlgorithmsList() {
   const listContainer = document.getElementById("algorithms-list");
-  algorithms.forEach(function (algo) {
-    const checkbox = document.createElement("input");
-    const label = document.createElement("label");
-    checkbox.type = "checkbox";
-    checkbox.value = algo.name;
 
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(` ${algo.name}`));
-    listContainer.appendChild(label);
-  });
+  algorithms.forEach((algo) =>
+    appendCheckboxToParent(
+      listContainer,
+      ` ${algo.name}`,
+      algo.name,
+      "algorithm",
+    ),
+  );
 }
 
 // Funkcja do zbierania informacji o wybranych opcjach
 function displaySelectedOptions() {
-  const selectedFunctions = [];
-  const selectedAlgorithms = [];
+  const selectedFunctionsWrapper =
+    document.getElementById("selected-functions");
+  selectedFunctionsWrapper.replaceChildren(
+    ...[...selectedFunctions].map((f) => {
+      const p = document.createElement("p");
+      p.className = "text text--small";
+      p.textContent = f;
+      return p;
+    }),
+  );
 
-  // Zbierz wybrane funkcje testowe
-  document
-    .querySelectorAll("#test-functions-list input:checked")
-    .forEach(function (checkbox) {
-      const func = testFunctions.find((f) => f.name === checkbox.value);
-      if (func) {
-        selectedFunctions.push(`${func.name}: ${func.formula}`);
-      }
-    });
-
-  // Zbierz wybrane algorytmy
-  document
-    .querySelectorAll("#algorithms-list input:checked")
-    .forEach(function (checkbox) {
-      selectedAlgorithms.push(checkbox.value);
-    });
-
-  // Wyświetl wybrane opcje
-  document.getElementById("selected-functions").innerText =
-    selectedFunctions.join("\n");
-  document.getElementById("selected-algorithms").innerText =
-    selectedAlgorithms.join("\n");
+  const selectedAlgorithmsWrapper = document.getElementById(
+    "selected-algorithms",
+  );
+  selectedAlgorithmsWrapper.replaceChildren(
+    ...[...selectedAlgorithms].map((a) => {
+      const p = document.createElement("p");
+      p.className = "text text--small";
+      p.textContent = a;
+      return p;
+    }),
+  );
 }
-
-document
-  .querySelector(".forward-button")
-  .addEventListener("click", displaySelectedOptions);
 
 // Wywołanie funkcji generujących listy po załadowaniu strony
 window.onload = function () {
