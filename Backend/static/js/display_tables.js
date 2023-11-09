@@ -46,8 +46,34 @@ const testFunctions = [
     });
   }
   
+  // Funkcja do zbierania informacji o wybranych opcjach
+  function displaySelectedOptions() {
+  const selectedFunctions = [];
+  const selectedAlgorithms = [];
+
+  // Zbierz wybrane funkcje testowe
+  document.querySelectorAll('#test-functions-list input:checked').forEach(function(checkbox) {
+    const func = testFunctions.find(f => f.name === checkbox.value);
+    if (func) {
+      selectedFunctions.push(`${func.name}: ${func.formula}`);
+    }
+  });
+
+  // Zbierz wybrane algorytmy
+  document.querySelectorAll('#algorithms-list input:checked').forEach(function(checkbox) {
+    selectedAlgorithms.push(checkbox.value);
+  });
+
+  // Wyświetl wybrane opcje
+  document.getElementById('selected-functions').innerText = selectedFunctions.join('\n');
+  document.getElementById('selected-algorithms').innerText = selectedAlgorithms.join('\n');
+  }
+
+  document.querySelector('.forward-button').addEventListener('click', displaySelectedOptions);
+
   // Wywołanie funkcji generujących listy po załadowaniu strony
   window.onload = function() {
     generateTestFunctionsList();
     generateAlgorithmsList();
   };
+
