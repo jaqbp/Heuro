@@ -1,16 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@100&display=swap');
+
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Prompt', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #222; /* Ciemne tło dla całej strony */
+    color: #fff; /* Biały kolor tekstu */
 }
 
 header, footer {
     text-align: center;
     padding: 1em;
-    background-color: #f8f9fa;
+    background-color: #444; /* Ciemne tło dla nagłówka i stopki */
+    color: #fff; /* Biały kolor tekstu w nagłówku i stopce */
 }
 
 ul {
@@ -19,12 +24,11 @@ ul {
 }
 
 ul li {
-    background: #f2f2f2;
+    background: #333; /* Ciemne tło dla listy elementów */
     margin: 8px 0;
     padding: 8px;
     border-radius: 4px;
 }
-
 
 #main-content {
     flex: 1;
@@ -35,55 +39,30 @@ ul li {
 }
 
 .box {
-    border: 1px solid black;
+    border: 1px solid #888; /* Kolor obramowania */
     width: 45%;
     padding: 1em;
     box-sizing: border-box;
+    background-color: #555; /* Ciemne tło wewnątrz pudełka */
+    color: #fff; /* Biały kolor tekstu w pudełku */
 }
 
 .box h2 {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #888; /* Kolor obramowania dla nagłówka */
     padding-bottom: 0.5em;
 }
 
 .box label {
     display: block;
     margin-bottom: 8px;
-    background: #f2f2f2;
+    background: #333; /* Ciemne tło dla etykiety */
     padding: 8px;
     border-radius: 4px;
+    color: #fff; /* Biały kolor tekstu w etykiecie */
 }
 
 .box input[type="checkbox"] {
     margin-right: 8px;
-}
-
-.box button {
-    margin-top: 16px;
-    padding: 8px 16px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.box button:hover {
-    background: #45a049;
-}
-
-button {
-    margin-top: 1em;
-    padding: 0.5em 1em;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
 }
 
 footer p {
