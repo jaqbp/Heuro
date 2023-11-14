@@ -28,7 +28,46 @@ const testFunctions = [
       listContainer.appendChild(label);
     });
   }
+
+  function getSelectedFunctions() {
+    const selectedFunctions = [];
+    document.querySelectorAll('#test-functions-list input:checked').forEach(function(checkbox) {
+      selectedFunctions.push(checkbox.value);
+    });
+    return selectedFunctions;
+  }
   
+  function getSelectedAlgorithms() {
+    const selectedAlgorithms = [];
+    document.querySelectorAll('#algorithms-list input:checked').forEach(function(checkbox) {
+      selectedAlgorithms.push(checkbox.value);
+    });
+    return selectedAlgorithms;
+  }  
+  
+  // Funkcja do wysyłania danych do endpointu /save_state
+  function saveStateToBackend(data) {
+    fetch('/save_state', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(result => {
+      console.log('Save State Result:', result);
+    })
+    .catch(error => {
+      console.error('Error saving state:', error);
+    });
+  }
+
   // Funkcja do generowania listy algorytmów
   function generateAlgorithmsList() {
     const listContainer = document.getElementById('algorithms-list');
@@ -69,8 +108,22 @@ const testFunctions = [
   document.getElementById('selected-algorithms').innerText = selectedAlgorithms.join('\n');
   }
 
-  document.querySelector('.forward-button').addEventListener('click', displaySelectedOptions);
-
+  // document.querySelector('.forward-button').addEventListener('click', displaySelectedOptions);
+  // Old one
+  document.querySelector('.forward-button').addEventListener('click', function() {
+    displaySelectedOptions();  // Call your existing function
+  
+    // Assuming data contains the information we want to save
+    const data = {
+      selectedFunctions: getSelectedFunctions(),
+      selectedAlgorithms: getSelectedAlgorithms(),
+    };
+  
+    // Call the saveStateToBackend function with the collected data
+    console.log("Done")
+    saveStateToBackend(data);
+  });
+  
   // Wywołanie funkcji generujących listy po załadowaniu strony
   window.onload = function() {
     generateTestFunctionsList();
