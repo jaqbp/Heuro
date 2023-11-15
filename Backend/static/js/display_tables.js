@@ -98,6 +98,7 @@ function displaySelectedOptions() {
   );
 }
 
+
 // Wywołanie funkcji generujących listy po załadowaniu strony
 window.onload = function () {
   generateTestFunctionsList();

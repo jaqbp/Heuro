@@ -8,15 +8,15 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/save_state", methods=["POST"])
+@app.route('/save_state', methods=['POST'])
 def save_state():
     data = request.json
     if not data:
-        return jsonify({"error": "Invalid data"})
+        return jsonify({"error": "Invalid data"}), 400
 
-    # Logika zapisu stanu do pliku tekstowego na podstawie przesłanych danych
-    pass
+    print(data)
 
+    return jsonify({"message": "Data saved successfully"}), 200
 
 @app.route("/load_state", methods=["GET"])
 def load_state():
