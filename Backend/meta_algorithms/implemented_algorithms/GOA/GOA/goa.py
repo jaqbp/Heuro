@@ -3,33 +3,41 @@ from goa_code import GOA2
 from abstract_classes import *
 
 
+# test function
+def rastrigin(X):
+    return 10 * len(X) + sum(X**2 - 10 * np.cos(2 * np.pi * X))
+
+
+# test function class
+class TestFunction:
+    def __init__(self, lb: int, ub: int, dim: int, fobj, name: str):
+        self.lb = lb[:]
+        self.ub = ub[:]
+        self.dim = dim
+        self.fobj = fobj
+        self.name = name
+
+
 class GazelleOptimizationAlgorithm(IOptimizationAlgorithm):
-    def __init__(self, search_agents_no, max_iter, test_function):
+    def __init__(self):
         super().__init__()
         self.name = "Gazelle Optimization Algorithm"
-        self.search_agents_no = search_agents_no
-        self.max_iter = max_iter
-        self.test_function = test_function
-        self.xbest = None
-        self.fbest = float("inf")
-        self.number_of_evaluation_fitness_function = 0
 
-    def solve(self, fitness_function, domain, parameters):
+    def solve(self, fitness_function, search_agents_no, max_iter):
         # Dostosowanie do wymagań interfejsu
-        self.test_function.fobj = fitness_function
-        self.test_function.lb = domain[0]
-        self.test_function.ub = domain[1]
-        self.test_function.dim = len(domain[0])
+        # self.test_function.fobj = fitness_function
+        # self.test_function.lb = domain[0]
+        # self.test_function.ub = domain[1]
+        # self.test_function.dim = len(domain[0])
 
-        self.fbest, self.xbest = GOA2(
-            self.search_agents_no, self.max_iter, self.test_function
-        )
-
-        self.number_of_evaluation_fitness_function = ...
+        self.fbest, self.xbest = GOA2(search_agents_no, max_iter, fitness_function)
 
         return self.fbest
 
 
 if __name__ == "__main__":
-    GOA_Inst = GazelleOptimizationAlgorithm(50, 20, 3)
-    print(GOA_Inst.name)
+    rastrigin = TestFunction(
+        np.array([-5.12]), np.array([5.12]), 30, rastrigin, "rastrigin"
+    )
+    GOA_Inst = GazelleOptimizationAlgorithm()
+    print(GOA_Inst.solve(rastrigin, 10, 100))

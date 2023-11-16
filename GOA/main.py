@@ -163,6 +163,7 @@ def GOA2(SearchAgents_no, Max_iter, test_function):
 
 # Algorithms to test the heuristic:
 
+
 class TestFunction:
     def __init__(self, lb: int, ub: int, dim: int, fobj, name: str):
         self.lb = lb[:]
