@@ -1,4 +1,4 @@
-# tutaj dodamy klasy abstrakcyjne, w oparciu o nie będziemy tworzyć obiekty odpowiednich algorymów
+# tutaj dodamy klasy abstrakcyjne, w oparciu o nie będziemy tworzyć klasy odpowiednich algorymów
 from abc import ABC, abstractmethod
 from typing import Callable, List
 import numpy as np
