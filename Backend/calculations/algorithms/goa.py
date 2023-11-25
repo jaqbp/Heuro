@@ -4,19 +4,16 @@ from algorithms.base import IOptimizationAlgorithm
 
 
 class GOA(IOptimizationAlgorithm):
-    def __init__(self, SearchAgents_no, Max_iter, fitness_function):
+    def __init__(self, SearchAgents_no, Max_iter):
         super().__init__()
         self.SearchAgents_no = SearchAgents_no
         self.Max_iter = Max_iter
-        self.fitness_function = fitness_function
 
     def levy(self, n, m, beta):
-        num = gamma(1 + beta) * np.sin(np.pi * beta / 2)  # Used for Numerator
-        den = (
-            gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2)
-        )  # Used for Denominator
+        num = gamma(1 + beta) * np.sin(np.pi * beta / 2)
+        den = gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2)
 
-        sigma_u = (num / den) ** (1 / beta)  # Standard deviation
+        sigma_u = (num / den) ** (1 / beta)
 
         u = np.random.normal(0, sigma_u, (n, m))
         v = np.random.normal(0, 1, (n, m))
@@ -42,21 +39,21 @@ class GOA(IOptimizationAlgorithm):
 
         Top_gazelle_pos = np.zeros(dim)
         Top_gazelle_fit = np.inf
-        stepsize = np.zeros((SearchAgents_no, dim))
-        fitness = np.inf * np.ones(SearchAgents_no)
+        stepsize = np.zeros((self.SearchAgents_no, dim))
+        fitness = np.inf * np.ones(self.SearchAgents_no)
 
-        gazelle = initialization(
-            SearchAgents_no, dim, fitness_function.ub, fitness_function.lb
+        gazelle = self.initialization(
+            self.SearchAgents_no, dim, fitness_function.ub, fitness_function.lb
         )
-        Xmin = np.tile(np.ones(dim) * fitness_function.lb, (SearchAgents_no, 1))
-        Xmax = np.tile(np.ones(dim) * fitness_function.ub, (SearchAgents_no, 1))
+        Xmin = np.tile(np.ones(dim) * fitness_function.lb, (self.SearchAgents_no, 1))
+        Xmax = np.tile(np.ones(dim) * fitness_function.ub, (self.SearchAgents_no, 1))
 
         Iter = 0
         PSRs = 0.34
         S = 0.88
         s = np.random.rand()
 
-        while Iter < Max_iter:
+        while Iter < self.Max_iter:
             for i in range(gazelle.shape[0]):
                 Flag4ub = gazelle[i, :] > fitness_function.ub
                 Flag4lb = gazelle[i, :] < fitness_function.lb
@@ -83,10 +80,10 @@ class GOA(IOptimizationAlgorithm):
             fit_old = fitness.copy()
             Prey_old = gazelle.copy()
 
-            Elite = np.tile(Top_gazelle_pos, (SearchAgents_no, 1))
-            CF = (1 - Iter / Max_iter) ** (2 * Iter / Max_iter)
-            RL = 0.05 * levy(SearchAgents_no, dim, 1.5)
-            RB = np.random.randn(SearchAgents_no, dim)
+            Elite = np.tile(Top_gazelle_pos, (self.SearchAgents_no, 1))
+            CF = (1 - Iter / self.Max_iter) ** (2 * Iter / self.Max_iter)
+            RL = 0.05 * self.levy(self.SearchAgents_no, dim, 1.5)
+            RB = np.random.randn(self.SearchAgents_no, dim)
 
             for i in range(gazelle.shape[0]):
                 for j in range(gazelle.shape[1]):
@@ -141,9 +138,10 @@ class GOA(IOptimizationAlgorithm):
             Prey_old = gazelle.copy()
 
             if np.random.rand() < PSRs:
-                U = np.random.rand(SearchAgents_no, dim) < PSRs
+                U = np.random.rand(self.SearchAgents_no, dim) < PSRs
                 gazelle = gazelle + CF * (
-                    (Xmin + np.random.rand(SearchAgents_no, dim) * (Xmax - Xmin)) * U
+                    (Xmin + np.random.rand(self.SearchAgents_no, dim) * (Xmax - Xmin))
+                    * U
                 )
             else:
                 r = np.random.rand()
