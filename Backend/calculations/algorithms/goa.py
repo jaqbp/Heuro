@@ -37,8 +37,8 @@ class GOA(IOptimizationAlgorithm):
     def solve(self, fitness_function, domain, parameters):
         dim = fitness_function.dim
 
-        Top_gazelle_pos = np.zeros(dim)
-        Top_gazelle_fit = np.inf
+        self.xbest = np.zeros(dim)  # top_gazelle_pos
+        self.fbest = np.inf  # top_gazelle_fitness
         stepsize = np.zeros((self.SearchAgents_no, dim))
         fitness = np.inf * np.ones(self.SearchAgents_no)
 
@@ -64,9 +64,9 @@ class GOA(IOptimizationAlgorithm):
                 )
                 fitness[i] = fitness_function.fobj(gazelle[i, :])
 
-                if fitness[i] < Top_gazelle_fit:
-                    Top_gazelle_fit = fitness[i]
-                    Top_gazelle_pos = gazelle[i, :]
+                if fitness[i] < self.fbest:
+                    self.fbest = fitness[i]
+                    self.xbest = gazelle[i, :]
 
             if Iter == 0:
                 fit_old = fitness.copy()
@@ -80,7 +80,7 @@ class GOA(IOptimizationAlgorithm):
             fit_old = fitness.copy()
             Prey_old = gazelle.copy()
 
-            Elite = np.tile(Top_gazelle_pos, (self.SearchAgents_no, 1))
+            Elite = np.tile(self.xbest, (self.SearchAgents_no, 1))
             CF = (1 - Iter / self.Max_iter) ** (2 * Iter / self.Max_iter)
             RL = 0.05 * self.levy(self.SearchAgents_no, dim, 1.5)
             RB = np.random.randn(self.SearchAgents_no, dim)
@@ -121,9 +121,9 @@ class GOA(IOptimizationAlgorithm):
                 )
                 fitness[i] = fitness_function.fobj(gazelle[i, :])
 
-                if fitness[i] < Top_gazelle_fit:
-                    Top_gazelle_fit = fitness[i]
-                    Top_gazelle_pos = gazelle[i, :]
+                if fitness[i] < self.fbest:
+                    self.fbest = fitness[i]
+                    self.xbest = gazelle[i, :]
 
             if Iter == 0:
                 fit_old = fitness.copy()
@@ -153,4 +153,4 @@ class GOA(IOptimizationAlgorithm):
 
             Iter = Iter + 1
 
-        return Top_gazelle_fit, Top_gazelle_pos
+        return self.fbest, self.xbest
