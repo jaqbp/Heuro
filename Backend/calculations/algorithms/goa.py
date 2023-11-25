@@ -6,6 +6,7 @@ from algorithms.base import IOptimizationAlgorithm
 class GOA(IOptimizationAlgorithm):
     def __init__(self, SearchAgents_no, Max_iter):
         super().__init__()
+        self.number_of_evaluation_fitness_function = 0
         self.SearchAgents_no = SearchAgents_no
         self.Max_iter = Max_iter
 
@@ -63,7 +64,9 @@ class GOA(IOptimizationAlgorithm):
                     + fitness_function.lb * Flag4lb
                 )
                 fitness[i] = fitness_function.fobj(gazelle[i, :])
-
+                self.number_of_evaluation_fitness_function = (
+                    self.number_of_evaluation_fitness_function + 1
+                )
                 if fitness[i] < self.fbest:
                     self.fbest = fitness[i]
                     self.xbest = gazelle[i, :]
@@ -120,7 +123,9 @@ class GOA(IOptimizationAlgorithm):
                     + fitness_function.lb * Flag4lb
                 )
                 fitness[i] = fitness_function.fobj(gazelle[i, :])
-
+                self.number_of_evaluation_fitness_function = (
+                    self.number_of_evaluation_fitness_function + 1
+                )
                 if fitness[i] < self.fbest:
                     self.fbest = fitness[i]
                     self.xbest = gazelle[i, :]
@@ -150,6 +155,14 @@ class GOA(IOptimizationAlgorithm):
                     gazelle[np.random.permutation(Rs), :]
                     - gazelle[np.random.permutation(Rs), :]
                 )
+
+            # self.writer.save_to_file_state_of_algorithm(
+            #     "GOA",
+            #     Iter,
+            #     self.number_of_evaluation_fitness_function,
+            #     gazelle,
+            #     fitness,
+            # )
 
             Iter = Iter + 1
 
