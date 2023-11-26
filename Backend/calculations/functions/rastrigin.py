@@ -1,5 +1,5 @@
-from functions.base import *
-
+from functions.base import TestFunction
+import numpy as np
 
 class RastriginFunction(TestFunction):
     def __init__(self, lb, ub, dim):

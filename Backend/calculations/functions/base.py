@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-import numpy as np
 
 
 class TestFunction(ABC):
@@ -16,3 +15,17 @@ class TestFunction(ABC):
         Powinna być zaimplementowana w każdej konkretnej funkcji testowej.
         """
         pass
+
+# def squareTest(X):
+#     return sum(X**2)
+# 
+# 
+# def sumMulTest(X):
+#     return sum(abs(X)) + np.prod(abs(X))
+# 
+# 
+# def rosenbrock(X):
+#     sum = 0
+#     for i in range(len(X) - 1):
+#         sum += 100 * (X[i + 1] - X[i] ** 2) ** 2 + (1 - X[i]) ** 2
+#     return sum
