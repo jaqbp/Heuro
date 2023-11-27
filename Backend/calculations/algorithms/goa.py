@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.special import gamma
 from algorithms.base import IOptimizationAlgorithm
+from utils.state_management import StateWriter, StateReader
 
 
 class GOA(IOptimizationAlgorithm):
@@ -8,6 +9,8 @@ class GOA(IOptimizationAlgorithm):
         super().__init__()
         self.number_of_evaluation_fitness_function = 0
         self.SearchAgents_no = SearchAgents_no
+        self.writer = StateWriter()
+        self.reader = StateReader()
 
         # to do wywalenia, po implementacji zapisu do pliku
         # zewnętrzna pętla będzie definiować ilość iteracji
@@ -40,10 +43,12 @@ class GOA(IOptimizationAlgorithm):
 
     def solve(self, fitness_function, domain, parameters):
         # odczytać stan algorytmu z pliku obiektem self.reader
+        niter, nfitfn, npopulation, xbest, fbest = self.reader.load_from_file_state_of_algorithm("GOA.txt")
 
         # linie 45-58 wykonać tylko przy pierwszym uruchomieniu solve, gdy plik nie
         # z zapisem nie istnieje.
         # (wartości parametrów będzie można przekazać przez parametry funkcji solve ("parameters"))
+        PSRs, S = parameters
         dim = fitness_function.dim
         self.xbest = np.zeros(dim)  # top_gazelle_pos
         self.fbest = np.inf  # top_gazelle_fitness
@@ -55,8 +60,6 @@ class GOA(IOptimizationAlgorithm):
         Xmax = np.tile(np.ones(dim) * domain[1], (self.SearchAgents_no, 1))
 
         Iter = 0
-        PSRs = 0.34
-        S = 0.88
         s = np.random.rand()
 
         # zastąpić przez odczytanie bieżącej iteracji z pliku
@@ -163,6 +166,8 @@ class GOA(IOptimizationAlgorithm):
                 )
 
             # zapisać stan algorytmu do pliku obiektem self.writer
+            self.writer.save_to_file_state_of_algorithm(Iter, "GOA.txt")
             Iter = Iter + 1
         # gdy algorytm się zakończy można odczytać najlepsze rozwiązanie z pliku
-        return self.fbest, self.xbest
+        _, _, _, xbest, fbest = self.reader.load_from_file_state_of_algorithm("GOA.txt")
+        return xbest, fbest
