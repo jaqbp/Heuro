@@ -4,6 +4,7 @@ from typing import Callable, List
 import numpy as np
 import numpy.matlib
 from scipy.special import gamma
+import os
 
 
 class IStateWriter(ABC):

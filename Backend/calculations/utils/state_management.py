@@ -4,12 +4,15 @@ from algorithms.base import IStateReader
 
 
 class StateWriter(IStateWriter):
-    def save_to_file_state_of_algorithm(self, n_iteration, path: str):
+    def save_to_file_state_of_algorithm(self, algo, n_iteration, path: str):
         # Metoda zapisująca do pliku tekstowego stan algorytmu.
         # Stan algorytmu: numer iteracji, liczba wywołań funkcji celu,
         # populacja wraz z wartością funkcji dopasowania.
-        with open(path) as f:
-            f.write(f"{n_iteration} {self.number_of_evaluation_fitness_function} {self.SearchAgents_no} {self.xbest} {self.fbest}\n")
+        with open(path, "w") as f:
+            print(algo.xbest, algo.fbest)
+            f.write(
+                f"{n_iteration} {algo.number_of_evaluation_fitness_function} {algo.SearchAgents_no} {algo.xbest} {algo.fbest}\n"
+            )
 
 
 class StateReader(IStateReader):
@@ -20,5 +23,5 @@ class StateReader(IStateReader):
         populacja wraz z wartością funkcji dopasowania.
         """
         with open(path, "r") as f:
-            data = f.read().strip('\n')
-        return data.split(' ')
+            data = f.read().strip("\n")
+        return data.split(" ")
