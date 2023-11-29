@@ -2,6 +2,7 @@ from algorithms.goa import GOA
 from functions.rastrigin import RastriginFunction
 from functions.himmelblau import HimmelblauFunction
 import numpy as np
+import os
 
 
 def main():
@@ -9,8 +10,12 @@ def main():
     test_function = HimmelblauFunction(np.array([-5]), np.array([5]), 2)
     goa_algorithm = GOA(SearchAgents_no=20, Max_iter=10)
 
+    # for test
+    os.remove("GOA.txt")
     best_fitness, best_position = goa_algorithm.solve(
-        test_function, domain=[test_function.lb, test_function.ub], parameters=[0.34, 0.88]
+        test_function,
+        domain=[test_function.lb, test_function.ub],
+        parameters=[0.34, 0.88],
     )
     print("Best Fitness: ", best_fitness)
     print("Best Position: ", best_position)

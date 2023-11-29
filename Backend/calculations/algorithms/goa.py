@@ -46,14 +46,14 @@ class GOA(IOptimizationAlgorithm):
         # odczytać stan algorytmu z pliku obiektem self.reader
 
         if os.path.exists("GOA.txt"):
-            return self.xbest, self.fbest
-            (
-                niter,
-                nfitfn,
-                npopulation,
-                xbest,
-                fbest,
-            ) = self.reader.load_from_file_state_of_algorithm("GOA.txt")
+            print(self.reader.load_from_file_state_of_algorithm("GOA.txt"))
+            # (
+            #     niter,
+            #     nfitfn,
+            #     npopulation,
+            #     xbest,
+            #     fbest,
+            # ) = self.reader.load_from_file_state_of_algorithm("GOA.txt")
         else:
             with open("GOA.txt", "w") as file:
                 pass
