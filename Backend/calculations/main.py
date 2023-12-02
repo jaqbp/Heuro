@@ -11,7 +11,8 @@ def main():
     goa_algorithm = GOA(SearchAgents_no=20, Max_iter=10)
 
     # for test
-    os.remove("GOA.txt")
+    # if os.path.exists("GOA.txt"):
+    #     os.remove("GOA.txt")
     best_fitness, best_position = goa_algorithm.solve(
         test_function,
         domain=[test_function.lb, test_function.ub],

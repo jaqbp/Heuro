@@ -44,23 +44,34 @@ class GOA(IOptimizationAlgorithm):
 
     def solve(self, fitness_function, domain, parameters):
         # odczytać stan algorytmu z pliku obiektem self.reader
-
         if os.path.exists("GOA.txt"):
-            print(self.reader.load_from_file_state_of_algorithm("GOA.txt"))
-            # (
-            #     niter,
-            #     nfitfn,
-            #     npopulation,
-            #     xbest,
-            #     fbest,
-            # ) = self.reader.load_from_file_state_of_algorithm("GOA.txt")
+            (
+                Iter,
+                self.number_of_evaluation_fitness_function,
+                self.SearchAgents_no,
+                self.fbest,
+                self.xbest,
+            ) = self.reader.load_from_file_state_of_algorithm("GOA.txt")
+            PSRs, S = parameters
+            dim = fitness_function.dim
+            self.xbest = self.xbest
+            self.fbest = self.fbest
+            stepsize = np.zeros((self.SearchAgents_no, dim))
+            fitness = np.inf * np.ones(self.SearchAgents_no)
+
+            gazelle = self.initialization(
+                self.SearchAgents_no, dim, domain[1], domain[0]
+            )
+            Xmin = np.tile(np.ones(dim) * domain[0], (self.SearchAgents_no, 1))
+            Xmax = np.tile(np.ones(dim) * domain[1], (self.SearchAgents_no, 1))
+            s = np.random.rand()
         else:
             with open("GOA.txt", "w") as file:
                 pass
             PSRs, S = parameters
             dim = fitness_function.dim
-            self.xbest = np.zeros(dim)  # top_gazelle_pos
-            self.fbest = np.inf  # top_gazelle_fitness
+            self.xbest = np.zeros(dim)
+            self.fbest = np.inf
             stepsize = np.zeros((self.SearchAgents_no, dim))
             fitness = np.inf * np.ones(self.SearchAgents_no)
 
@@ -174,6 +185,4 @@ class GOA(IOptimizationAlgorithm):
         # zapisać stan algorytmu do pliku obiektem self.writer
         self.writer.save_to_file_state_of_algorithm(self, Iter, "GOA.txt")
         Iter = Iter + 1
-        # gdy algorytm się zakończy można odczytać najlepsze rozwiązanie z pliku
-        _, _, _, xbest, fbest = self.reader.load_from_file_state_of_algorithm("GOA.txt")
-        return xbest, fbest
+        return self.xbest, self.fbest
