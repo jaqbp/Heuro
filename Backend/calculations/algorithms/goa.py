@@ -74,7 +74,6 @@ class GOA(IOptimizationAlgorithm):
             self.fbest = np.inf
             stepsize = np.zeros((self.SearchAgents_no, dim))
             fitness = np.inf * np.ones(self.SearchAgents_no)
-
             gazelle = self.initialization(
                 self.SearchAgents_no, dim, domain[1], domain[0]
             )

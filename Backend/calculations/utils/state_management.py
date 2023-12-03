@@ -10,12 +10,12 @@ class StateWriter(IStateWriter):
         # Stan algorytmu: numer iteracji, liczba wywołań funkcji celu,
         # populacja wraz z wartością funkcji dopasowania.
         with open(path, "w") as f:
-            print(algo.xbest, algo.fbest)
             f.write(
-                f"{n_iteration} {algo.number_of_evaluation_fitness_function} {algo.SearchAgents_no} {algo.fbest}\n"
+                f"{n_iteration} {algo.number_of_evaluation_fitness_function} {algo.SearchAgents_no}\n"
             )
             for i in range(len(algo.xbest)):
                 f.write(f"{algo.xbest[i]} ")
+            f.write(f"{algo.fbest}")
 
 
 class StateReader(IStateReader):
@@ -26,13 +26,12 @@ class StateReader(IStateReader):
 
         with open(path, "r") as f:
             data = f.read()
-            iter, eval, pop, fbest = data.split("\n")[0].split(" ")
+            iter, eval, pop = data.split("\n")[0].split(" ")
             iter = int(iter)
             eval = int(eval)
             pop = int(pop)
-            # numpy float
-            fbest = np.float64(fbest)
             xbest = data.split("\n")[len(data.split("\n")) - 1].split(" ")
-            xbest.pop()
-            xbest = np.array(xbest)
+            fbest = xbest.pop()
+            fbest = float(fbest)
+            xbest = np.array(xbest).astype(float)
         return iter, eval, pop, fbest, xbest
