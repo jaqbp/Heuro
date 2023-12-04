@@ -13,14 +13,14 @@ def main():
     # for test
     # if os.path.exists("GOA.txt"):
     #     os.remove("GOA.txt")
-    for _ in range(10):
-        best_fitness, best_position = goa_algorithm.solve(
-            test_function,
-            domain=[test_function.lb, test_function.ub],
-            parameters=[0.34, 0.88],
-        )
-        print("Best Fitness: ", best_fitness)
-        print("Best Position: ", best_position)
+
+    best_fitness, best_position = goa_algorithm.solve(
+        test_function,
+        domain=[test_function.lb, test_function.ub],
+        parameters=[0.34, 0.88],
+    )
+    print("Best Fitness: ", best_fitness)
+    print("Best Position: ", best_position)
 
 
 if __name__ == "__main__":
