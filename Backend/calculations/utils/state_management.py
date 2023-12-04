@@ -9,6 +9,13 @@ class StateWriter(IStateWriter):
         # Metoda zapisująca do pliku tekstowego stan algorytmu.
         # Stan algorytmu: numer iteracji, liczba wywołań funkcji celu,
         # populacja wraz z wartością funkcji dopasowania.
+        first_line = ""
+        try:
+            with open(path, "r") as f:
+                first_line = f.readline()
+        except FileNotFoundError:
+            pass
+
         with open(path, "w") as f:
             f.write(
                 f"{n_iteration} {algo.number_of_evaluation_fitness_function} {algo.SearchAgents_no}\n"
@@ -16,6 +23,12 @@ class StateWriter(IStateWriter):
             for i in range(len(algo.xbest)):
                 f.write(f"{algo.xbest[i]} ")
             f.write(f"{algo.fbest}")
+
+        # with open(path, "r") as f_read:
+        #     lines = f_read.readlines()[1:]
+
+        # with open(path, "a") as f_append:
+        #     f_append.writelines(lines)
 
 
 class StateReader(IStateReader):

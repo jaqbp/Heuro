@@ -57,14 +57,13 @@ class GOA(IOptimizationAlgorithm):
             self.xbest = self.xbest
             self.fbest = self.fbest
             stepsize = np.zeros((self.SearchAgents_no, dim))
-            fitness = np.inf * np.ones(self.SearchAgents_no)
-
-            gazelle = self.initialization(
-                self.SearchAgents_no, dim, domain[1], domain[0]
-            )
+            fitness = self.fbest * np.ones(self.SearchAgents_no)
+            gazelle = np.tile(self.xbest, (self.SearchAgents_no, 1))
             Xmin = np.tile(np.ones(dim) * domain[0], (self.SearchAgents_no, 1))
             Xmax = np.tile(np.ones(dim) * domain[1], (self.SearchAgents_no, 1))
             s = np.random.rand()
+            fit_old = self.fbest * np.ones(self.SearchAgents_no)
+            Prey_old = np.tile(self.xbest, (self.SearchAgents_no, 1))
         else:
             with open("GOA.txt", "w") as file:
                 pass
