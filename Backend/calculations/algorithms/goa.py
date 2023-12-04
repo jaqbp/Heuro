@@ -182,6 +182,6 @@ class GOA(IOptimizationAlgorithm):
             )
 
         # zapisać stan algorytmu do pliku obiektem self.writer
-        self.writer.save_to_file_state_of_algorithm(self, Iter, "GOA.txt")
         Iter = Iter + 1
+        self.writer.save_to_file_state_of_algorithm(self, Iter, "GOA.txt")
         return self.xbest, self.fbest
