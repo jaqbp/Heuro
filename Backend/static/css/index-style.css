@@ -26,6 +26,9 @@ h1 {
     &.text--large {
         font-size: 2.5vh;
     }
+    &.text--medium {
+        font-size: 1.8vh;
+    }
     &.text--small {
         font-size: 1.3vh;
     }
@@ -56,29 +59,25 @@ ul li {
 }
 
 .forward-button {
-    padding: 20px 40px;
-    font-size: 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
+    margin: 2rem 2rem;
+    text-align: center;
+    font-size: 16px;
     cursor: pointer;
-    border-radius: 20px; 
-    transition: background-color 0.3s, transform 0.3s; 
 }
 
 .forward-button:hover {
-    background-color: #555; 
-    transform: scale(1.05); 
+    background-color: #555;
+    transition: background-color 0.3s, transform 0.3s; 
 }
 
-.button-container {
+/* .button-container {
     width: 100%;
-    display: flex;
+    display: inline-block;
     justify-content: flex-end; 
     padding-top: 1em; 
     padding-right: 4em;
     padding-bottom: 1em;
-}
+} */
 
 .box {
     border: 1px solid #666; 
