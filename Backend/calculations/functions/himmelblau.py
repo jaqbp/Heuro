@@ -1,4 +1,4 @@
-from functions.base import TestFunction
+ from functions.base import TestFunction
 
 class HimmelblauFunction(TestFunction):
     def __init__(self, lb, ub, dim):
