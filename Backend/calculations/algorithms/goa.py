@@ -66,6 +66,7 @@ class GOA(IOptimizationAlgorithm):
             Prey_old = np.tile(self.xbest, (self.SearchAgents_no, 1))
         else:
             with open("GOA.txt", "w") as file:
+                # TODO: zapisywać stan algorytmu do pliku
                 pass
             PSRs, S = parameters
             dim = fitness_function.dim
