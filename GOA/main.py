@@ -1,10 +1,14 @@
 import numpy as np
 import numpy.matlib
 from scipy.special import gamma
-from functions import (
+import os
+import sys
+
+PARENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(PARENT_DIR)
+
+from GOA.functions import (
     rastrigin,
-    sumMulTest,
-    squareTest,
     rosenbrock,
     bukin_function_n6,
     himmelblau,
@@ -14,7 +18,6 @@ from functions import (
     f4,
 )
 import math
-import csv
 import pandas as pd
 
 
@@ -165,7 +168,8 @@ def GOA2(SearchAgents_no, Max_iter, test_function):
 
 
 class TestFunction:
-    def __init__(self, lb: int, ub: int, dim: int, fobj, name: str):
+    def __init__(self, id: int, lb: int, ub: int, dim: int, fobj, name: str):
+        self.id = id
         self.lb = lb[:]
         self.ub = ub[:]
         self.dim = dim
@@ -186,33 +190,64 @@ class GazelleOptimizationAlgorithm:
         pass
 
 
-if __name__ == "__main__":
-    test_functions = []
-    rastrigin = TestFunction(
-        np.array([-5.12]), np.array([5.12]), 30, rastrigin, "rastrigin"
-    )
-    rosenbrock = TestFunction(
-        np.array([-5]), np.array([5]), 30, rosenbrock, "rosenbrock"
-    )
-    bukin = TestFunction(
-        np.array([-15, -3]), np.array([-5, 3]), 2, bukin_function_n6, "bukin"
-    )
-    himmelblau = TestFunction(
-        np.array([-5]), np.array([5]), 2, himmelblau, "himmelblau"
-    )
-    f1 = TestFunction(np.array([-100]), np.array([100]), 30, f1, "f1")
-    f2 = TestFunction(np.array([-500]), np.array([500]), 30, f2, "f2")
-    f3 = TestFunction(np.array([-600]), np.array([600]), 30, f3, "f3")
-    f4 = TestFunction(np.array([-32]), np.array([32]), 30, f4, "f4")
-    test_functions.append(rastrigin)
-    test_functions.append(rosenbrock)
-    test_functions.append(bukin)
-    test_functions.append(himmelblau)
-    test_functions.append(f1)
-    test_functions.append(f2)
-    test_functions.append(f3)
-    test_functions.append(f4)
+def calculate_function_data(N, I, data, TESTS, test_func):
+    for n in N:
+        for i in I:
+            best_y = math.inf
+            best_X = None
+            curr_ys = []
+            all_curr_X = []
+            for _ in range(TESTS):
+                y, X = GOA2(n, i, test_func)
+                curr_ys.append(y)
+                all_curr_X.append(X[:])
+                if y < best_y:
+                    best_y = y
+                    best_X = X[:]
+            std_deviations_of_Xs = []
+            stacked_Xs = np.vstack(all_curr_X)
+            for j in range(stacked_Xs.shape[1]):
+                std_dev = np.std(stacked_Xs[:, j])
+                std_deviations_of_Xs.append(std_dev)
+            data["For function"].append(test_func.name)
+            data["Number of params"].append(test_func.dim)
+            data["N"].append(n)
+            data["I"].append(i)
+            data["Param 'PSRs'"].append(0.34)
+            data["Param 'S'"].append(0.88)
+            data["Found minimum"].append(np.round(best_X, 2).tolist())
+            data["Goal function best value"].append(np.round(best_y))
+            data["Goal function worst value"].append(np.round(np.max(curr_ys)).tolist())
+            data["Standard deviation of the parameters"].append(
+                np.round(std_deviations_of_Xs,2).tolist()
+            )
+            data["Standard deviation of the goal function value"].append(
+                np.round(np.std(curr_ys),2).tolist()
+            )
+            data["Coefficient of variation of goal function value"].append(
+                np.round(np.std(curr_ys) / np.mean(curr_ys) * 100,2).tolist()
+            )
 
+test_functions = [
+    TestFunction(
+        0, np.array([-5.12]), np.array([5.12]), 30, rastrigin, "rastrigin"
+    ),
+    TestFunction(
+        1, np.array([-15, -3]), np.array([-5, 3]), 2, bukin_function_n6, "bukin"
+    ),
+    TestFunction(
+        2, np.array([-5]), np.array([5]), 30, rosenbrock, "rosenbrock"
+    ),
+    TestFunction(
+        -1, np.array([-5]), np.array([5]), 2, himmelblau, "himmelblau"
+    ),
+    TestFunction(-1, np.array([-100]), np.array([100]), 30, f1, "f1"),
+    TestFunction(-1, np.array([-500]), np.array([500]), 30, f2, "f2"),
+    TestFunction(-1, np.array([-600]), np.array([600]), 30, f3, "f3"),
+    TestFunction(-1, np.array([-32]), np.array([32]), 30, f4, "f4")
+]
+
+if __name__ == "__main__":
     # Params for the heuristic algorithm (higher values == higher chance of finding better solution)
     N = [10, 20, 40, 80]
     I = [5, 10, 20, 40, 80]
@@ -233,46 +268,9 @@ if __name__ == "__main__":
         "Coefficient of variation of goal function value": [],
     }
 
-    for test_func in test_functions:
-        for n in N:
-            for i in I:
-                best_y = math.inf
-                best_X = None
-                curr_ys = []
-                all_curr_X = []
-                for _ in range(TESTS):
-                    y, X = GOA2(n, i, test_func)
-                    curr_ys.append(y)
-                    all_curr_X.append(X[:])
-                    if y < best_y:
-                        best_y = y
-                        best_X = X[:]
-                std_deviations_of_Xs = []
-                stacked_Xs = np.vstack(all_curr_X)
-                for j in range(stacked_Xs.shape[1]):
-                    std_dev = np.std(stacked_Xs[:, j])
-                    std_deviations_of_Xs.append(std_dev)
-                data["For function"].append(test_func.name)
-                data["Number of params"].append(test_func.dim)
-                data["N"].append(n)
-                data["I"].append(i)
-                data["Param 'PSRs'"].append(0.34)
-                data["Param 'S'"].append(0.88)
-                data["Found minimum"].append(best_X)
-                data["Goal function best value"].append(best_y)
-                data["Goal function worst value"].append(np.max(curr_ys))
-                data["Standard deviation of the parameters"].append(
-                    std_deviations_of_Xs
-                )
-                data["Standard deviation of the goal function value"].append(
-                    np.std(curr_ys)
-                )
-                data["Coefficient of variation of goal function value"].append(
-                    np.std(curr_ys) / np.mean(curr_ys) * 100
-                )
-
-                print(std_deviations_of_Xs)
-                print(f"N: {n}, I: {i}\nbest_y: {best_y}\nbest_X: {best_X}\n\n")
+    for idx, test_func in enumerate(test_functions):
+        calculate_function_data(N, I, data, TESTS, test_func)
+        print(f'N: {data["N"][idx]}, I: {data["I"][idx]}\nbest_y: {data["Goal function best value"][idx]}\nbest_X: {data["Found minimum"][idx]}\n\n')
 
     # Dataframe to store our data in the table and then save it to excel file
     df = pd.DataFrame(data)
