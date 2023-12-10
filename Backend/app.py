@@ -1,8 +1,6 @@
-import math
 from flask import Flask, render_template, request, jsonify
 import os
 import sys
-import numpy as np
 
 PARENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(PARENT_DIR)
@@ -17,7 +15,7 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/save_state', methods=['POST'])
+@app.route("/save_state", methods=["POST"])
 def save_state():
     data = request.json
     if not data:
@@ -51,7 +49,7 @@ def generate_text_report():
         req = request.json
         functionId = req["functionId"]
         algorithmId = req["algorithmId"]
-        test_function = [f for f in test_functions if f.id == functionId][0] 
+        test_function = [f for f in test_functions if f.id == functionId][0]
         data = {
             "For function": [],
             "Number of params": [],

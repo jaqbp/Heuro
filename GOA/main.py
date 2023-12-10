@@ -219,32 +219,27 @@ def calculate_function_data(N, I, data, TESTS, test_func):
             data["Goal function best value"].append(np.round(best_y))
             data["Goal function worst value"].append(np.round(np.max(curr_ys)).tolist())
             data["Standard deviation of the parameters"].append(
-                np.round(std_deviations_of_Xs,2).tolist()
+                np.round(std_deviations_of_Xs, 2).tolist()
             )
             data["Standard deviation of the goal function value"].append(
-                np.round(np.std(curr_ys),2).tolist()
+                np.round(np.std(curr_ys), 2).tolist()
             )
             data["Coefficient of variation of goal function value"].append(
-                np.round(np.std(curr_ys) / np.mean(curr_ys) * 100,2).tolist()
+                np.round(np.std(curr_ys) / np.mean(curr_ys) * 100, 2).tolist()
             )
 
+
 test_functions = [
-    TestFunction(
-        0, np.array([-5.12]), np.array([5.12]), 30, rastrigin, "rastrigin"
-    ),
+    TestFunction(0, np.array([-5.12]), np.array([5.12]), 30, rastrigin, "rastrigin"),
     TestFunction(
         1, np.array([-15, -3]), np.array([-5, 3]), 2, bukin_function_n6, "bukin"
     ),
-    TestFunction(
-        2, np.array([-5]), np.array([5]), 30, rosenbrock, "rosenbrock"
-    ),
-    TestFunction(
-        -1, np.array([-5]), np.array([5]), 2, himmelblau, "himmelblau"
-    ),
+    TestFunction(2, np.array([-5]), np.array([5]), 30, rosenbrock, "rosenbrock"),
+    TestFunction(-1, np.array([-5]), np.array([5]), 2, himmelblau, "himmelblau"),
     TestFunction(-1, np.array([-100]), np.array([100]), 30, f1, "f1"),
     TestFunction(-1, np.array([-500]), np.array([500]), 30, f2, "f2"),
     TestFunction(-1, np.array([-600]), np.array([600]), 30, f3, "f3"),
-    TestFunction(-1, np.array([-32]), np.array([32]), 30, f4, "f4")
+    TestFunction(-1, np.array([-32]), np.array([32]), 30, f4, "f4"),
 ]
 
 if __name__ == "__main__":
@@ -270,7 +265,9 @@ if __name__ == "__main__":
 
     for idx, test_func in enumerate(test_functions):
         calculate_function_data(N, I, data, TESTS, test_func)
-        print(f'N: {data["N"][idx]}, I: {data["I"][idx]}\nbest_y: {data["Goal function best value"][idx]}\nbest_X: {data["Found minimum"][idx]}\n\n')
+        print(
+            f'N: {data["N"][idx]}, I: {data["I"][idx]}\nbest_y: {data["Goal function best value"][idx]}\nbest_X: {data["Found minimum"][idx]}\n\n'
+        )
 
     # Dataframe to store our data in the table and then save it to excel file
     df = pd.DataFrame(data)
