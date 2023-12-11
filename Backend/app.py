@@ -15,6 +15,11 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/set_params")
+def set_params():
+    return render_template("params.html")
+
+
 @app.route("/save_state", methods=["POST"])
 def save_state():
     data = request.json

@@ -17,7 +17,7 @@ const testFunctions = [
 ];
 
 const algorithms = [
-  { id: 0, name: "Algorytm genetyczny" },
+  { id: 0, name: "Algorytm GOA" },
   { id: 1, name: "Optymalizacja rojem cząstek (PSO)" },
   { id: 2, name: "Algorytm mrówkowy (ACO)" },
   { id: 3, name: "Algorytm optymalizacji kolonii nietoperzy" },
