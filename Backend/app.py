@@ -9,11 +9,25 @@ from GOA.main import calculate_function_data, test_functions
 
 app = Flask(__name__)
 
-
 @app.route("/")
 def home():
     return render_template("index.html")
 
+@app.route("/details", methods=['GET','POST'])
+def details():
+    if request.method == 'POST':
+        data = request.json
+        values1 = data['values1']
+        values2 = data['values2']
+        values3 = data['values3']
+        values4 = data['values4']
+        # print(f'Wartość 1: {values1}, Wartość 2: {values2}, Wartość 3: {values3}, Wartość 4: {values4} odebrane przez Flask')
+        return f'Wartość 1: {values1}, Wartość 2: {values2}, Wartość 3: {values3}, Wartość 4: {values4} odebrane przez Flask'
+    return render_template("details.html")
+
+@app.route("/result")
+def result():
+    return render_template("result.html")
 
 @app.route("/set_params")
 def set_params():
