@@ -1,8 +1,6 @@
 from algorithms.goa import GOA
-from functions.rastrigin import RastriginFunction
 from functions.himmelblau import HimmelblauFunction
 import numpy as np
-import os
 
 
 def main():
