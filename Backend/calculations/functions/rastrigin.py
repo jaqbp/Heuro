@@ -1,6 +1,7 @@
 from functions.base import TestFunction
 import numpy as np
 
+
 class RastriginFunction(TestFunction):
     def __init__(self, lb, ub, dim):
         super().__init__(lb, ub, dim, "Rastrigin")

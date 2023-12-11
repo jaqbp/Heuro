@@ -1,10 +1,6 @@
 # tutaj dodamy klasy abstrakcyjne, w oparciu o nie będziemy tworzyć klasy odpowiednich algorymów
 from abc import ABC, abstractmethod
 from typing import Callable, List
-import numpy as np
-import numpy.matlib
-from scipy.special import gamma
-import os
 
 
 class IStateWriter(ABC):

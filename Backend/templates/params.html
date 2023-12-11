@@ -25,32 +25,12 @@
     </header>
 
     <section id="main-content">
-      
-        <div class="box">
-            <h2>wybierz funkcje testowe</h2>
-            <div id="test-functions-list"></div>
-        </div>
-    
-        <div class="box">
-            <h2>wybierz algorytmy</h2>
-            <div id="algorithms-list"></div>
-        </div>
-    
-        <div class="box">
-            <h3>Wybrane Funkcje Testowe:</h3>
-            <pre id="selected-functions"></pre>
-        </div>
-        <div class="box">
-            <h3>Wybrane Algorytmy:</h3>
-            <pre id="selected-algorithms"></pre>
-        </div>
-        
+      <h1> Wybrane funkcje i ich parametry: </h1>
     </section>
 
-    <div class="box forward-button">
-        <h3><a href="{{ url_for('details') }}" style="text-decoration: none; color: white;" target="_blank">dalej</a></h3>
-        <pre id="forward"></pre>
-
+    <!-- TODO: add blocked button mechanism when no function or algorithm is chosen -->
+    <div class="generate-report-wrapper">
+      <button class="generate-report-btn">Wygeneruj raport</button>
     </div>
 
     <footer>
