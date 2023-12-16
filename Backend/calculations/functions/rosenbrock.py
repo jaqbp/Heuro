@@ -1,7 +1,7 @@
 from functions.base import TestFunction
 
 
-class Rosenbrock(TestFunction):
+class RosenbrockFunction(TestFunction):
     def __init__(self, lb, ub, dim):
         super().__init__(lb, ub, dim, "Rosenbrock")
 
