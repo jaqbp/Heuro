@@ -12,12 +12,9 @@ class GOA(IOptimizationAlgorithm):
         self.SearchAgents_no = SearchAgents_no
         self.writer = StateWriter()
         self.reader = StateReader()
-
-        # to do wywalenia, po implementacji zapisu do pliku
-        # zewnętrzna pętla będzie definiować ilość iteracji
         self.Max_iter = Max_iter
 
-    def levy(self, n, m, beta):
+    def _levy(self, n, m, beta):
         num = gamma(1 + beta) * np.sin(np.pi * beta / 2)
         den = gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2)
 
@@ -30,7 +27,7 @@ class GOA(IOptimizationAlgorithm):
 
         return z
 
-    def initialization(self, SearchAgents_no, dim, ub, lb):
+    def _initialization(self, SearchAgents_no, dim, ub, lb):
         Positions = np.zeros((SearchAgents_no, dim))
         if len(ub) == 1 and len(lb) == 1:
             Positions = np.random.rand(SearchAgents_no, dim) * (ub - lb) + lb
@@ -43,7 +40,6 @@ class GOA(IOptimizationAlgorithm):
         return Positions
 
     def solve(self, fitness_function, domain, parameters):
-        # odczytać stan algorytmu z pliku obiektem self.reader
         if os.path.exists(fitness_function.name + ".txt"):
             (
                 Iter,
@@ -74,7 +70,7 @@ class GOA(IOptimizationAlgorithm):
                 self.fbest = np.inf
                 stepsize = np.zeros((self.SearchAgents_no, dim))
                 fitness = np.inf * np.ones(self.SearchAgents_no)
-                gazelle = self.initialization(
+                gazelle = self._initialization(
                     self.SearchAgents_no, dim, domain[1], domain[0]
                 )
                 Xmin = np.tile(np.ones(dim) * domain[0], (self.SearchAgents_no, 1))
@@ -113,7 +109,7 @@ class GOA(IOptimizationAlgorithm):
 
         Elite = np.tile(self.xbest, (self.SearchAgents_no, 1))
         CF = (1 - Iter / self.Max_iter) ** (2 * Iter / self.Max_iter)
-        RL = 0.05 * self.levy(self.SearchAgents_no, dim, 1.5)
+        RL = 0.05 * self._levy(self.SearchAgents_no, dim, 1.5)
         RB = np.random.randn(self.SearchAgents_no, dim)
 
         for i in range(gazelle.shape[0]):
@@ -181,7 +177,6 @@ class GOA(IOptimizationAlgorithm):
                 - gazelle[np.random.permutation(Rs), :]
             )
 
-        # zapisać stan algorytmu do pliku obiektem self.writer
         Iter = Iter + 1
         self.writer.save_to_file_state_of_algorithm(
             self, Iter, fitness_function.name + ".txt"
