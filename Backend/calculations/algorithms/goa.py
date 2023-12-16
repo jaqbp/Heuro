@@ -44,14 +44,16 @@ class GOA(IOptimizationAlgorithm):
 
     def solve(self, fitness_function, domain, parameters):
         # odczytać stan algorytmu z pliku obiektem self.reader
-        if os.path.exists(fitness_function.name+".txt"):
+        if os.path.exists(fitness_function.name + ".txt"):
             (
                 Iter,
                 self.number_of_evaluation_fitness_function,
                 self.SearchAgents_no,
                 self.fbest,
                 self.xbest,
-            ) = self.reader.load_from_file_state_of_algorithm(fitness_function.name+".txt")
+            ) = self.reader.load_from_file_state_of_algorithm(
+                fitness_function.name + ".txt"
+            )
             PSRs, S = parameters
             dim = fitness_function.dim
             self.xbest = self.xbest
@@ -65,23 +67,21 @@ class GOA(IOptimizationAlgorithm):
             fit_old = self.fbest * np.ones(self.SearchAgents_no)
             Prey_old = np.tile(self.xbest, (self.SearchAgents_no, 1))
         else:
-            with open(fitness_function.name+".txt", "w") as file:
-                # TODO: zapisywać stan algorytmu do pliku
-                pass
-            PSRs, S = parameters
-            dim = fitness_function.dim
-            self.xbest = np.zeros(dim)
-            self.fbest = np.inf
-            stepsize = np.zeros((self.SearchAgents_no, dim))
-            fitness = np.inf * np.ones(self.SearchAgents_no)
-            gazelle = self.initialization(
-                self.SearchAgents_no, dim, domain[1], domain[0]
-            )
-            Xmin = np.tile(np.ones(dim) * domain[0], (self.SearchAgents_no, 1))
-            Xmax = np.tile(np.ones(dim) * domain[1], (self.SearchAgents_no, 1))
+            with open(fitness_function.name + ".txt", "w") as file:
+                PSRs, S = parameters
+                dim = fitness_function.dim
+                self.xbest = np.zeros(dim)
+                self.fbest = np.inf
+                stepsize = np.zeros((self.SearchAgents_no, dim))
+                fitness = np.inf * np.ones(self.SearchAgents_no)
+                gazelle = self.initialization(
+                    self.SearchAgents_no, dim, domain[1], domain[0]
+                )
+                Xmin = np.tile(np.ones(dim) * domain[0], (self.SearchAgents_no, 1))
+                Xmax = np.tile(np.ones(dim) * domain[1], (self.SearchAgents_no, 1))
 
-            Iter = 0
-            s = np.random.rand()
+                Iter = 0
+                s = np.random.rand()
 
         for i in range(gazelle.shape[0]):
             Flag4ub = gazelle[i, :] > domain[1]
@@ -183,5 +183,7 @@ class GOA(IOptimizationAlgorithm):
 
         # zapisać stan algorytmu do pliku obiektem self.writer
         Iter = Iter + 1
-        self.writer.save_to_file_state_of_algorithm(self, Iter, fitness_function.name+".txt")
+        self.writer.save_to_file_state_of_algorithm(
+            self, Iter, fitness_function.name + ".txt"
+        )
         return self.xbest, self.fbest
