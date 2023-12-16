@@ -27,43 +27,6 @@ def details():
     return render_template("details.html")
 
 
-@app.route("/result")
-def result():
-    return render_template("result.html")
-
-
-@app.route("/set_params")
-def set_params():
-    return render_template("params.html")
-
-
-@app.route("/save_state", methods=["POST"])
-def save_state():
-    data = request.json
-    if not data:
-        return jsonify({"error": "Invalid data"}), 400
-
-    print(data)
-
-    return jsonify({"message": "Data saved successfully"}), 200
-
-
-@app.route("/load_state", methods=["GET"])
-def load_state():
-    # Logika zapisu stanu z pliku tekstowego, analogia do interfejsu IStateReader
-    pass
-
-
-@app.route("/generate_pdf_report", methods=["POST"])
-def generate_pdf_report():
-    data = request.json
-    if not data:
-        return jsonify({"error": "Invalid data"})
-
-    # Logika generowania pliku PDF, analogia do intefejsu IGeneratePDFReport
-    pass
-
-
 @app.route("/calculations", methods=["POST"])
 def calculations():
     data = request.json
