@@ -52,9 +52,7 @@ class GOA(IOptimizationAlgorithm):
                 self.SearchAgents_no,
                 self.fbest,
                 self.xbest,
-            ) = self.reader.load_from_file_state_of_algorithm(
-                filename
-            )
+            ) = self.reader.load_from_file_state_of_algorithm(filename)
             PSRs, S = parameters
             dim = fitness_function.dim
             self.xbest = self.xbest
@@ -68,6 +66,7 @@ class GOA(IOptimizationAlgorithm):
             fit_old = self.fbest * np.ones(self.SearchAgents_no)
             Prey_old = np.tile(self.xbest, (self.SearchAgents_no, 1))
         else:
+            # TODO: 'file' is unused
             with open(filename, "w") as file:
                 PSRs, S = parameters
                 dim = fitness_function.dim
@@ -183,12 +182,16 @@ class GOA(IOptimizationAlgorithm):
             )
 
         Iter = Iter + 1
-        self.writer.save_to_file_state_of_algorithm(
-            self, Iter, filename
-        )
+        self.writer.save_to_file_state_of_algorithm(self, Iter, filename)
         return self.xbest, self.fbest
-    
-    def calculate_function_data(self, fitness_function, parameters: list[float], numberOfTests: int, data = defaultdict(list)):
+
+    def calculate_function_data(
+        self,
+        fitness_function,
+        parameters: list[float],
+        numberOfTests: int,
+        data=defaultdict(list),
+    ):
         best_y = math.inf
         best_X = None
         curr_ys = []

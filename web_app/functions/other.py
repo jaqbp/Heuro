@@ -2,11 +2,14 @@
 
 import numpy as np
 
+
 def squareTest(X):
     return sum(X**2)
 
+
 def sumMulTest(X):
     return sum(abs(X)) + np.prod(abs(X))
+
 
 def f1(x):
     return sum((x - 0.5) ** 2)

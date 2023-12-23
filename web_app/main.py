@@ -15,8 +15,7 @@ def main():
     #     os.remove("GOA.txt")
 
     best_fitness, best_position = goa_algorithm.solve(
-        test_function,
-        parameters=[0.34, 0.88]
+        test_function, parameters=[0.34, 0.88]
     )
     print("Best Fitness: ", best_fitness)
     print("Best Position: ", best_position)

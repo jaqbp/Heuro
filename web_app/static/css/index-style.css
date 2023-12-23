@@ -68,7 +68,9 @@ ul li {
 
 .forward-button:hover {
   background-color: #555;
-  transition: background-color 0.3s, transform 0.3s;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
 }
 
 /* .button-container {
