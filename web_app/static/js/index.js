@@ -14,6 +14,11 @@ const testFunctions = [
     name: "Funkcja Rosenbrocka",
     formula: "f(x, y) = ∑(100 * (x_i+1 - x_i^2)^2 + (1 - x_i)^2)",
   },
+  {
+    id: 3,
+    name: "Funkcja Himmelblau",
+    formula: "TODO:",
+  },
 ];
 
 const algorithms = [
@@ -123,6 +128,8 @@ continueButton.addEventListener("click", async () => {
   if (!res.ok) {
     throw new Error("Error while selecting functions and algorithms");
   }
+
+  window.location.href = "/details";
 });
 
 // Wywołanie funkcji generujących listy po załadowaniu strony

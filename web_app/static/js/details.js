@@ -61,7 +61,6 @@ submitButton.addEventListener("click", async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "cache-control": "no-cache",
     },
     body: JSON.stringify({
       domain,

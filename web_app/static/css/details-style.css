@@ -1,25 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Prompt:wght@100&family=Raleway:wght@100&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Prompt:wght@100&family=Raleway:wght@100&display=swap");
 
 #submit-btn {
   padding: 1rem 2rem;
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #222; 
-  color: #fff; 
+  background-color: #222;
+  color: #fff;
 }
 
-header, footer {
+header,
+footer {
   text-align: center;
   padding: 1em;
-  background-color: #1b1b1b; 
-  color: #fff; 
+  background-color: #1b1b1b;
+  color: #fff;
 }
 
 h1 {
@@ -28,13 +29,13 @@ h1 {
 
 .text {
   &.text--large {
-      font-size: 2.5vh;
+    font-size: 2.5vh;
   }
   &.text--medium {
-      font-size: 1.8vh;
+    font-size: 1.8vh;
   }
   &.text--small {
-      font-size: 1.3vh;
+    font-size: 1.3vh;
   }
 }
 
@@ -44,7 +45,7 @@ ul {
 }
 
 ul li {
-  background: #333; 
+  background: #333;
   margin: 8px 0;
   padding: 8px;
   border-radius: 4px;
@@ -58,20 +59,20 @@ ul li {
   padding: 2em;
 
   @media screen and (max-width: 768px) {
-     grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
   }
 }
 
 .box {
-  border: 1px solid #666; 
+  border: 1px solid #666;
   padding: 1em;
   box-sizing: border-box;
-  background-color: #333; 
-  color: #fff; 
+  background-color: #333;
+  color: #fff;
 }
 
 .box h2 {
-  border-bottom: 1px solid #888; 
+  border-bottom: 1px solid #888;
   padding-bottom: 0.5em;
   text-align: center;
 }
@@ -79,10 +80,10 @@ ul li {
 .box label {
   display: block;
   margin-bottom: 8px;
-  background: #333; 
+  background: #333;
   padding: 8px;
   border-radius: 4px;
-  color: #fff; 
+  color: #fff;
 }
 
 .input-div {
@@ -103,15 +104,22 @@ ul li {
 }
 
 .forward-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#submit-btn {
   margin: 2rem 2rem;
   text-align: center;
   font-size: 16px;
   cursor: pointer;
-}
-
-.forward-button:hover {
-  background-color: #555;
-  transition: background-color 0.3s, transform 0.3s; 
+  background-color: #333;
+  color: #fff;
+  &:hover {
+    background-color: #555;
+    transition: background-color 0.3s, transform 0.3s;
+  }
 }
 
 .footer {

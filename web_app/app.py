@@ -1,8 +1,9 @@
-from flask import Flask, redirect, render_template, request, jsonify, session, url_for
+from flask import Flask, render_template, request, jsonify, session
 import importlib
 import sys
 
-from goa_archive.main import calculate_function_data, test_functions
+from algorithms.goa import GOA
+from utils.get_function_obj import get_function_obj
 
 app = Flask(__name__)
 app.secret_key = "secret_key"
@@ -79,27 +80,13 @@ def generate_text_report():
         population = int(json["population"])
         functionId = int(session.get("functionId"))
         algorithmId = int(session.get("algorithmId"))
-        test_function = [f for f in test_functions if f.id == functionId][0]
-        data = {
-            "For function": [],
-            "Number of params": [],
-            "N": [],
-            "I": [],
-            "Param 'PSRs'": [],
-            "Param 'S'": [],
-            "Found minimum": [],
-            "Goal function best value": [],
-            "Goal function worst value": [],
-            "Standard deviation of the parameters": [],
-            "Standard deviation of the goal function value": [],
-            "Coefficient of variation of goal function value": [],
-        }
+        test_function = get_function_obj(dimension, domain, functionId)
+        goa_algorithm = GOA(SearchAgents_no=population, Max_iter=numberOfIterations)
         TESTS = 10
-        calculate_function_data(
-            population, numberOfIterations, data, TESTS, test_function
-        )
+        data = goa_algorithm.calculate_function_data(test_function, [0.34, 0.88], TESTS)
         return jsonify({"response": data}), 200
     except Exception as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400
 
 

@@ -171,11 +171,10 @@ class IOptimizationAlgorithm(ABC):
     def solve(
         self,
         fitness_function: Callable,
-        domain: List[List[float]],
         parameters: List[float],
     ):
         """
         Metoda rozwiązująca problem optymalizacji.
-        Przyjmuje funkcję celu, dziedzinę i listę parametrów.
+        Przyjmuje funkcję celu, listę parametrów.
         """
         pass
