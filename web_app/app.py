@@ -1,31 +1,45 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, redirect, render_template, request, jsonify, session, url_for
 import importlib
-import os
 import sys
 
-PARENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(PARENT_DIR)
-
-from GOA.main import calculate_function_data, test_functions
+from goa_archive.main import calculate_function_data, test_functions
 
 app = Flask(__name__)
+app.secret_key = "secret_key"
 
 
 @app.route("/")
-def home():
+def index():
     return render_template("index.html")
 
 
-@app.route("/details", methods=["GET", "POST"])
+@app.route("/details")
 def details():
-    if request.method == "POST":
-        data = request.json
-        values1 = data["values1"]
-        values2 = data["values2"]
-        values3 = data["values3"]
-        values4 = data["values4"]
-        return f"Wartość 1: {values1}, Wartość 2: {values2}, Wartość 3: {values3}, Wartość 4: {values4} odebrane przez Flask"
     return render_template("details.html")
+
+
+@app.route("/add_details", methods=["POST"])
+def add_details():
+    data = request.get_json()
+    values1 = data["values1"]
+    values2 = data["values2"]
+    values3 = data["values3"]
+    values4 = data["values4"]
+    print(values1, values2, values3, values4)
+    return jsonify({"message": "Wartości dodane pomyślnie"}), 200
+
+
+@app.route("/add_function_and_algorithm", methods=["POST"])
+def add_function_and_algorithm():
+    body = request.get_json()
+    if not body or "functionId" not in body or "algorithmId" not in body:
+        return jsonify({"error": "Invalid request body"}), 400
+
+    # Now for simplicity just one id
+    print(dict(session.items()))
+    session["functionId"] = body["functionId"]
+    session["algorithmId"] = body["algorithmId"]
+    return jsonify({"message": "Funkcja i algorytm dodane pomyślnie"}), 200
 
 
 @app.route("/calculations", methods=["POST"])
@@ -57,11 +71,14 @@ def calculations():
 
 @app.route("/generate_text_report", methods=["POST"])
 def generate_text_report():
-    # Logika generowania raportu tekstowego, analogia do interfejsu IGenerateTextReport
     try:
-        req = request.json
-        functionId = req["functionId"]
-        algorithmId = req["algorithmId"]
+        json = request.get_json()
+        domain = int(json["domain"])
+        dimension = int(json["dimension"])
+        numberOfIterations = int(json["numberOfIterations"])
+        population = int(json["population"])
+        functionId = int(session.get("functionId"))
+        algorithmId = int(session.get("algorithmId"))
         test_function = [f for f in test_functions if f.id == functionId][0]
         data = {
             "For function": [],
@@ -77,10 +94,10 @@ def generate_text_report():
             "Standard deviation of the goal function value": [],
             "Coefficient of variation of goal function value": [],
         }
-        N = [10, 20, 40, 80]
-        I = [5, 10, 20, 40, 80]
         TESTS = 10
-        calculate_function_data(N, I, data, TESTS, test_function)
+        calculate_function_data(
+            population, numberOfIterations, data, TESTS, test_function
+        )
         return jsonify({"response": data}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400

@@ -1,13 +1,7 @@
 import numpy as np
-import numpy.matlib
 from scipy.special import gamma
-import os
-import sys
 
-PARENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(PARENT_DIR)
-
-from GOA.functions import (
+from .functions import (
     rastrigin,
     rosenbrock,
     bukin_function_n6,
@@ -190,43 +184,41 @@ class GazelleOptimizationAlgorithm:
         pass
 
 
-def calculate_function_data(N, I, data, TESTS, test_func):
-    for n in N:
-        for i in I:
-            best_y = math.inf
-            best_X = None
-            curr_ys = []
-            all_curr_X = []
-            for _ in range(TESTS):
-                y, X = GOA2(n, i, test_func)
-                curr_ys.append(y)
-                all_curr_X.append(X[:])
-                if y < best_y:
-                    best_y = y
-                    best_X = X[:]
-            std_deviations_of_Xs = []
-            stacked_Xs = np.vstack(all_curr_X)
-            for j in range(stacked_Xs.shape[1]):
-                std_dev = np.std(stacked_Xs[:, j])
-                std_deviations_of_Xs.append(std_dev)
-            data["For function"].append(test_func.name)
-            data["Number of params"].append(test_func.dim)
-            data["N"].append(n)
-            data["I"].append(i)
-            data["Param 'PSRs'"].append(0.34)
-            data["Param 'S'"].append(0.88)
-            data["Found minimum"].append(np.round(best_X, 2).tolist())
-            data["Goal function best value"].append(np.round(best_y))
-            data["Goal function worst value"].append(np.round(np.max(curr_ys)).tolist())
-            data["Standard deviation of the parameters"].append(
-                np.round(std_deviations_of_Xs, 2).tolist()
-            )
-            data["Standard deviation of the goal function value"].append(
-                np.round(np.std(curr_ys), 2).tolist()
-            )
-            data["Coefficient of variation of goal function value"].append(
-                np.round(np.std(curr_ys) / np.mean(curr_ys) * 100, 2).tolist()
-            )
+def calculate_function_data(population, numberOfIterations, data, TESTS, test_func):
+    best_y = math.inf
+    best_X = None
+    curr_ys = []
+    all_curr_X = []
+    for _ in range(TESTS):
+        y, X = GOA2(population, numberOfIterations, test_func)
+        curr_ys.append(y)
+        all_curr_X.append(X[:])
+        if y < best_y:
+            best_y = y
+            best_X = X[:]
+    std_deviations_of_Xs = []
+    stacked_Xs = np.vstack(all_curr_X)
+    for j in range(stacked_Xs.shape[1]):
+        std_dev = np.std(stacked_Xs[:, j])
+        std_deviations_of_Xs.append(std_dev)
+    data["For function"].append(test_func.name)
+    data["Number of params"].append(test_func.dim)
+    data["N"].append(population)
+    data["I"].append(numberOfIterations)
+    data["Param 'PSRs'"].append(0.34)
+    data["Param 'S'"].append(0.88)
+    data["Found minimum"].append(np.round(best_X, 2).tolist())
+    data["Goal function best value"].append(np.round(best_y))
+    data["Goal function worst value"].append(np.round(np.max(curr_ys)).tolist())
+    data["Standard deviation of the parameters"].append(
+        np.round(std_deviations_of_Xs, 2).tolist()
+    )
+    data["Standard deviation of the goal function value"].append(
+        np.round(np.std(curr_ys), 2).tolist()
+    )
+    data["Coefficient of variation of goal function value"].append(
+        np.round(np.std(curr_ys) / np.mean(curr_ys) * 100, 2).tolist()
+    )
 
 
 test_functions = [
