@@ -14,6 +14,11 @@ const testFunctions = [
     name: "Funkcja Rosenbrocka",
     formula: "f(x, y) = ∑(100 * (x_i+1 - x_i^2)^2 + (1 - x_i)^2)",
   },
+  {
+    id: 3,
+    name: "Funkcja Himmelblau",
+    formula: "TODO:",
+  },
 ];
 
 const algorithms = [
@@ -26,9 +31,7 @@ const algorithms = [
 const selectedFunctions = new Set();
 const selectedAlgorithms = new Set();
 
-const generateReportButton = document.getElementsByClassName(
-  "generate-report-btn",
-)[0];
+const continueButton = document.getElementsByClassName("continue-btn")[0];
 
 const appendCheckboxToParent = (parent, id, text, checkboxValue, type) => {
   const label = document.createElement("label");
@@ -110,84 +113,23 @@ function displaySelectedOptions() {
   );
 }
 
-function generateHTML(data) {
-  const tableHeader = Object.keys(data.response)
-    .map((k) => `<th>${k}</th>`)
-    .join("");
+continueButton.addEventListener("click", async () => {
+  const res = await fetch("http://127.0.0.1:5000/add_function_and_algorithm", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      functionId: [...selectedFunctions].map((f) => f.id)[0],
+      algorithmId: [...selectedAlgorithms].map((a) => a.id)[0],
+    }),
+  });
 
-  const tableRows = data.response[
-    "Coefficient of variation of goal function value"
-  ]
-    .map((_, rowIndex) => {
-      return `<tr>${Object.values(data.response)
-        .map((columnData) => `<td>${columnData[rowIndex]}</td>`)
-        .join("")}</tr>`;
-    })
-    .join("");
-
-  const tableStyles = `
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      border: 1px solid #dddddd;
-      padding: 8px;
-      text-align: left;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
-`;
-
-  return `
-  <html>
-    <head>
-      <title>Your Generated HTML Page</title>
-      ${tableStyles}
-    </head>
-    <body>
-      <table>
-        ${tableHeader}
-        ${tableRows}
-      </table>
-    </body>
-  </html>
-  `;
-}
-
-generateReportButton.addEventListener("click", async () => {
-  try {
-    generateReportButton.disabled = true;
-    generateReportButton.innerText = "Generowanie raportu...";
-    console.log("start");
-    const res = await fetch("http://127.0.0.1:5000/generate_text_report", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        functionId: [...selectedFunctions].map((f) => f.id)[0],
-        algorithmId: [...selectedAlgorithms].map((a) => a.id)[0],
-      }),
-    });
-    const data = await res.json();
-    console.log(data);
-    const html = generateHTML(data);
-    const blob = new Blob([html], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    window.location.href = url;
-  } catch (err) {
-    console.log(err);
-  } finally {
-    generateReportButton.disabled = false;
-    generateReportButton.innerText = "Generuj raport";
+  if (!res.ok) {
+    throw new Error("Error while selecting functions and algorithms");
   }
+
+  window.location.href = "/details";
 });
 
 // Wywołanie funkcji generujących listy po załadowaniu strony

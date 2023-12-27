@@ -1,13 +1,16 @@
+from collections import defaultdict
 import os
 import numpy as np
 from scipy.special import gamma
 from algorithms.base import IOptimizationAlgorithm
 from utils.state_management import StateWriter, StateReader
+import math
 
 
 class GOA(IOptimizationAlgorithm):
     def __init__(self, SearchAgents_no, Max_iter):
         super().__init__()
+        self.name = "Gazelle Optimization Algorithm"
         self.number_of_evaluation_fitness_function = 0
         self.SearchAgents_no = SearchAgents_no
         self.writer = StateWriter()
@@ -39,17 +42,17 @@ class GOA(IOptimizationAlgorithm):
 
         return Positions
 
-    def solve(self, fitness_function, domain, parameters):
-        if os.path.exists(fitness_function.name + ".txt"):
+    def solve(self, fitness_function, parameters: list[float]):
+        domain = [fitness_function.lb, fitness_function.ub]
+        filename = f"{fitness_function.name}_{self.SearchAgents_no}.txt"
+        if os.path.exists(filename):
             (
                 Iter,
                 self.number_of_evaluation_fitness_function,
                 self.SearchAgents_no,
                 self.fbest,
                 self.xbest,
-            ) = self.reader.load_from_file_state_of_algorithm(
-                fitness_function.name + ".txt"
-            )
+            ) = self.reader.load_from_file_state_of_algorithm(filename)
             PSRs, S = parameters
             dim = fitness_function.dim
             self.xbest = self.xbest
@@ -63,7 +66,8 @@ class GOA(IOptimizationAlgorithm):
             fit_old = self.fbest * np.ones(self.SearchAgents_no)
             Prey_old = np.tile(self.xbest, (self.SearchAgents_no, 1))
         else:
-            with open(fitness_function.name + ".txt", "w") as file:
+            # TODO: 'file' is unused
+            with open(filename, "w") as file:
                 PSRs, S = parameters
                 dim = fitness_function.dim
                 self.xbest = np.zeros(dim)
@@ -178,7 +182,50 @@ class GOA(IOptimizationAlgorithm):
             )
 
         Iter = Iter + 1
-        self.writer.save_to_file_state_of_algorithm(
-            self, Iter, fitness_function.name + ".txt"
-        )
+        self.writer.save_to_file_state_of_algorithm(self, Iter, filename)
         return self.xbest, self.fbest
+
+    def calculate_function_data(
+        self,
+        fitness_function,
+        parameters: list[float],
+        numberOfTests: int,
+        data=defaultdict(list),
+    ):
+        best_y = math.inf
+        best_X = None
+        curr_ys = []
+        all_curr_X = []
+        for _ in range(numberOfTests):
+            X, y = self.solve(fitness_function, parameters)
+            curr_ys.append(y)
+            all_curr_X.append(X[:])
+            if y < best_y:
+                best_y = y
+                best_X = X[:]
+
+        std_deviations_of_Xs = []
+        stacked_Xs = np.vstack(all_curr_X)
+        for j in range(stacked_Xs.shape[1]):
+            std_dev = np.std(stacked_Xs[:, j])
+            std_deviations_of_Xs.append(std_dev)
+
+        data["For function"].append(fitness_function.name)
+        data["Number of params"].append(fitness_function.dim)
+        data["N"].append(self.SearchAgents_no)
+        data["I"].append(self.Max_iter)
+        data["Param 'PSRs'"].append(0.34)
+        data["Param 'S'"].append(0.88)
+        data["Found minimum"].append(np.round(best_X, 2).tolist())
+        data["Goal function best value"].append(np.round(best_y))
+        data["Goal function worst value"].append(np.round(np.max(curr_ys)).tolist())
+        data["Standard deviation of the parameters"].append(
+            np.round(std_deviations_of_Xs, 2).tolist()
+        )
+        data["Standard deviation of the goal function value"].append(
+            np.round(np.std(curr_ys), 2).tolist()
+        )
+        data["Coefficient of variation of goal function value"].append(
+            np.round(np.std(curr_ys) / np.mean(curr_ys) * 100, 2).tolist()
+        )
+        return data

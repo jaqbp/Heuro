@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heuro</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/details-style.css') }}"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="../static/images/silesian-ginger-icon.png"
+    />
+  </head>
+  <body>
+    <header>
+      <h2>Detale funkcji</h2>
+      <p class="text text--medium">
+        Dobierz detale algorytmów metaheurystycznych i funkcji testowych. <br />
+        W zależności od preferencji zmień dziedzinę czy wymiar. Możesz również
+        wybrać ilość iteracji i rozmiar populacji algorytmu testowego
+      </p>
+    </header>
+    <section id="main-content">
+      <div class="box">
+        <h2>wybierz dziedzinę</h2>
+        <div class="input-div">
+          <input id="dziedzina" type="number" placeholder="10" />
+        </div>
+      </div>
+      <div class="box">
+        <h2>wybierz wymiar</h2>
+        <div class="input-div">
+          <input id="wymiar" type="number" placeholder="4" />
+        </div>
+      </div>
+      <div class="box">
+        <h2>wybierz ilość iteracji dla algorytmu testowego</h2>
+        <div class="input-div">
+          <input id="iteracje" type="number" placeholder="6" />
+        </div>
+      </div>
+      <div class="box">
+        <h2>wybierz rozmiar populacji dla algorytmu testowego</h2>
+        <div class="input-div">
+          <input id="populacja" type="number" placeholder="8" />
+        </div>
+      </div>
+    </section>
+    <div class="box forward-button">
+      <button id="submit-btn">Wygeneruj raport</button>
+      <pre id="forward"></pre>
+    </div>
+    <footer class="footer">
+      <p class="text text--large">2023 Halemba represent</p>
+      <img
+        src="{{ url_for('static', filename='images/silesian-ginger-icon.png') }}"
+        alt="silesian-ginger-icon"
+      />
+    </footer>
+    <script src="{{ url_for('static', filename='js/details.js') }}"></script>
+  </body>
+</html>
