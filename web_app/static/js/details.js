@@ -50,33 +50,63 @@ function generateHTML(data) {
 }
 
 const submitButton = document.getElementById("submit-btn");
+const modal = document.getElementById("reportStateModal");
+const stopBtn = document.getElementById("stopBtn");
+const timerElement = document.getElementById("timer");
+const modalText = document.getElementById("modalText");
+
+let isRunning = true;
+let time = 0;
 
 submitButton.addEventListener("click", async () => {
-  const domain = document.getElementById("dziedzina").value;
-  const dimension = document.getElementById("wymiar").value;
-  const numberOfIterations = document.getElementById("iteracje").value;
-  const population = document.getElementById("populacja").value;
 
-  const res = await fetch("http://127.0.0.1:5000/generate_text_report", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      domain,
-      dimension,
-      numberOfIterations,
-      population,
-    }),
-  });
+    
+    modal.style.display = "block";
 
-  if (!res.ok) {
-    throw new Error("Error while setting details");
-  }
+    const domain = document.getElementById("dziedzina").value;
+    const dimension = document.getElementById("wymiar").value;
+    const numberOfIterations = document.getElementById("iteracje").value;
+    const population = document.getElementById("populacja").value;
 
-  const data = await res.json();
-  const html = generateHTML(data);
-  const blob = new Blob([html], { type: "text/html" });
-  const url = URL.createObjectURL(blob);
-  window.location.href = url;
+    const res = await fetch("http://127.0.0.1:5000/generate_text_report", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            domain,
+            dimension,
+            numberOfIterations,
+            population,
+        }),
+    });
+
+    if (!res.ok) {
+        throw new Error("Error while setting details");
+    }
+
+    const data = await res.json();
+    const html = generateHTML(data);
+    const blob = new Blob([html], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    window.location.href = url;
 });
+
+stopBtn.addEventListener("click", () => {
+  if (isRunning) {
+    modalText.innerText = "Zatrzymano algorytm. Możesz go wznowić klikając poniższy guzik.";
+    stopBtn.innerText = "Wznów obliczenia";
+  }
+  else {
+    modalText.innerText = "Obliczenia trwają. Możesz zatrzymać je klikając poniższy guzik.";
+    stopBtn.innerText = "Zatrzymaj obliczenia";
+  }
+    isRunning = !isRunning;
+});
+
+setInterval(() => {
+    if (isRunning) {
+        time += 1;
+        timerElement.innerText = 'Czas trwania obliczeń: ' + time + 's';
+    }   
+}, 1000);

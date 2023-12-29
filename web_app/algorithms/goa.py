@@ -45,6 +45,7 @@ class GOA(IOptimizationAlgorithm):
     def solve(self, fitness_function, parameters: list[float]):
         domain = [fitness_function.lb, fitness_function.ub]
         filename = f"{fitness_function.name}_{self.SearchAgents_no}.txt"
+
         if os.path.exists(filename):
             (
                 Iter,

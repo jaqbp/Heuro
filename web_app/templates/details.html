@@ -53,6 +53,16 @@
       <button id="submit-btn">Wygeneruj raport</button>
       <pre id="forward"></pre>
     </div>
+
+    <div id="reportStateModal" class="modal">
+      <div class="modal-content">
+          <p id="modalText" class="modalText">Obliczenia trwają. Możesz zatrzymać je klikając poniższy guzik.</p>
+          <p> Pozostała ilość iteracji do wykonania: <span id="iteracjeSpan"></span> </p> 
+          <p id="timer">Czas: 0s</p>
+          <button id="stopBtn">Zatrzymaj obliczenia</button>
+      </div>
+  </div>
+
     <footer class="footer">
       <p class="text text--large">2023 Halemba represent</p>
       <img
