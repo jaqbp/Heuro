@@ -60,7 +60,6 @@ let isModalOpen = false;
 let time = 0;
 
 submitButton.addEventListener("click", async () => {
-
     modal.style.display = "block";
     isModalOpen = true;
     const domain = document.getElementById("dziedzina").value;
@@ -92,14 +91,29 @@ submitButton.addEventListener("click", async () => {
     window.location.href = url;
 });
 
-stopBtn.addEventListener("click", () => {
+stopBtn.addEventListener("click", async () => {
   if (isRunning) {
+    
+    const res = await fetch("http://127.0.0.1:5000/stop_calculations", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+    });
     modalText.innerText = "Zatrzymano algorytm. Możesz go wznowić klikając poniższy guzik.";
     stopBtn.innerText = "Wznów obliczenia";
   }
   else {
+
+    const res = await fetch("http://127.0.0.1:5000/continue_calculations", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+    });
     modalText.innerText = "Obliczenia trwają. Możesz zatrzymać je klikając poniższy guzik.";
     stopBtn.innerText = "Zatrzymaj obliczenia";
+
   }
     isRunning = !isRunning;
 });

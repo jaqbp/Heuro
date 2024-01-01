@@ -5,6 +5,7 @@ from scipy.special import gamma
 from algorithms.base import IOptimizationAlgorithm
 from utils.state_management import StateWriter, StateReader
 import math
+import time
 
 
 class GOA(IOptimizationAlgorithm):
@@ -197,13 +198,19 @@ class GOA(IOptimizationAlgorithm):
         best_X = None
         curr_ys = []
         all_curr_X = []
-        for _ in range(numberOfTests):
+        if os.path.exists("stop.txt"):
+            os.remove("stop.txt")
+
+        for _ in range(int(self.Max_iter)):
             X, y = self.solve(fitness_function, parameters)
             curr_ys.append(y)
             all_curr_X.append(X[:])
             if y < best_y:
                 best_y = y
                 best_X = X[:]
+            while os.path.exists("stop.txt"):
+                time.sleep(1)
+                pass
 
         std_deviations_of_Xs = []
         stacked_Xs = np.vstack(all_curr_X)

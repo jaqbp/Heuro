@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, session
 import importlib
 import sys
-
+import os
 from algorithms.goa import GOA
 from utils.get_function_obj import get_function_obj
 
@@ -88,6 +88,33 @@ def generate_text_report():
     except Exception as e:
         print(str(e))
         return jsonify({"error": str(e)}), 400
+
+
+@app.route("/stop_calculations", methods=["POST"])
+def stop_calculations():
+    file_path = "stop.txt"
+    try:
+        if not os.path.exists(file_path):
+            with open(file_path, "w") as file:
+                file.write("stop")
+            return jsonify({"message": "Obliczenia zatrzymane"}), 200
+        else:
+            return jsonify({"message": "Plik już istnieje"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/continue_calculations", methods=["POST"])
+def continue_calculations():
+    file_path = "stop.txt"
+    try:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            return jsonify({"message": "Obliczenia kontynuowane"}), 200
+        else:
+            return jsonify({"message": "Plik nie istnieje"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/add_function", methods=["POST"])
