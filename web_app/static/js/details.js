@@ -51,7 +51,7 @@ function generateHTML(data) {
 
 const submitButton = document.getElementById("submit-btn");
 const modal = document.getElementById("reportStateModal");
-const stopBtn = document.getElementById("stopBtn");
+const pauseBtn = document.getElementById("pauseBtn");
 const timerElement = document.getElementById("timer");
 const modalText = document.getElementById("modalText");
 
@@ -85,23 +85,24 @@ submitButton.addEventListener("click", async () => {
     }
 
     const data = await res.json();
+    console.log(data);
     const html = generateHTML(data);
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     window.location.href = url;
 });
 
-stopBtn.addEventListener("click", async () => {
+pauseBtn.addEventListener("click", async () => {
   if (isRunning) {
     
-    const res = await fetch("http://127.0.0.1:5000/stop_calculations", {
+    const res = await fetch("http://127.0.0.1:5000/pause_calculations", {
       method: "POST",
       headers: {
           "Content-Type": "application/json",
       },
     });
     modalText.innerText = "Zatrzymano algorytm. Możesz go wznowić klikając poniższy guzik.";
-    stopBtn.innerText = "Wznów obliczenia";
+    pauseBtn.innerText = "Wznów obliczenia";
   }
   else {
 
@@ -112,7 +113,7 @@ stopBtn.addEventListener("click", async () => {
       },
     });
     modalText.innerText = "Obliczenia trwają. Możesz zatrzymać je klikając poniższy guzik.";
-    stopBtn.innerText = "Zatrzymaj obliczenia";
+    pauseBtn.innerText = "Zatrzymaj obliczenia";
 
   }
     isRunning = !isRunning;

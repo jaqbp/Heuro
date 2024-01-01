@@ -198,8 +198,8 @@ class GOA(IOptimizationAlgorithm):
         best_X = None
         curr_ys = []
         all_curr_X = []
-        if os.path.exists("stop.txt"):
-            os.remove("stop.txt")
+        if os.path.exists("pause.txt"):
+            os.remove("pause.txt")
 
         for _ in range(int(self.Max_iter)):
             X, y = self.solve(fitness_function, parameters)
@@ -208,7 +208,7 @@ class GOA(IOptimizationAlgorithm):
             if y < best_y:
                 best_y = y
                 best_X = X[:]
-            while os.path.exists("stop.txt"):
+            while os.path.exists("pause.txt"):
                 time.sleep(1)
                 pass
 

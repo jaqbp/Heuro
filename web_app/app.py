@@ -90,13 +90,13 @@ def generate_text_report():
         return jsonify({"error": str(e)}), 400
 
 
-@app.route("/stop_calculations", methods=["POST"])
-def stop_calculations():
-    file_path = "stop.txt"
+@app.route("/pause_calculations", methods=["POST"])
+def pause_calculations():
+    file_path = "pause.txt"
     try:
         if not os.path.exists(file_path):
             with open(file_path, "w") as file:
-                file.write("stop")
+                file.write("pause")
             return jsonify({"message": "Obliczenia zatrzymane"}), 200
         else:
             return jsonify({"message": "Plik już istnieje"}), 400
@@ -106,7 +106,7 @@ def stop_calculations():
 
 @app.route("/continue_calculations", methods=["POST"])
 def continue_calculations():
-    file_path = "stop.txt"
+    file_path = "pause.txt"
     try:
         if os.path.exists(file_path):
             os.remove(file_path)

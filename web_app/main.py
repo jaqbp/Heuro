@@ -10,10 +10,6 @@ def main():
     test_function = HimmelblauFunction(np.array([-5]), np.array([5]), 5)
     goa_algorithm = GOA(SearchAgents_no=20, Max_iter=10)
 
-    # for test
-    # if os.path.exists("GOA.txt"):
-    #     os.remove("GOA.txt")
-
     best_fitness, best_position = goa_algorithm.solve(
         test_function, parameters=[0.34, 0.88]
     )

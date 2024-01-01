@@ -153,7 +153,7 @@ footer p {
   text-align: center;
 }
 
-#stopBtn {
+#pauseBtn {
   background-color: #f44336;
   color: white;
   padding: 10px 15px;
@@ -162,6 +162,6 @@ footer p {
   cursor: pointer;
 }
 
-#stopBtn:hover {
+#pauseBtn:hover {
   background-color: #d32f2f;
 }
