@@ -56,13 +56,13 @@ const timerElement = document.getElementById("timer");
 const modalText = document.getElementById("modalText");
 
 let isRunning = true;
+let isModalOpen = false;
 let time = 0;
 
 submitButton.addEventListener("click", async () => {
 
-    
     modal.style.display = "block";
-
+    isModalOpen = true;
     const domain = document.getElementById("dziedzina").value;
     const dimension = document.getElementById("wymiar").value;
     const numberOfIterations = document.getElementById("iteracje").value;
@@ -105,7 +105,7 @@ stopBtn.addEventListener("click", () => {
 });
 
 setInterval(() => {
-    if (isRunning) {
+    if (isRunning && isModalOpen) {
         time += 1;
         timerElement.innerText = 'Czas trwania obliczeń: ' + time + 's';
     }   
