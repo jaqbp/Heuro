@@ -84,6 +84,7 @@ def generate_text_report():
         goa_algorithm = GOA(SearchAgents_no=population, Max_iter=numberOfIterations)
         TESTS = 10
         data = goa_algorithm.calculate_function_data(test_function, [0.34, 0.88], TESTS)
+        os.remove(f"{test_function.name}_{population}.txt")
         return jsonify({"response": data}), 200
     except Exception as e:
         print(str(e))
