@@ -68,22 +68,20 @@ class GOA(IOptimizationAlgorithm):
             fit_old = self.fbest * np.ones(self.SearchAgents_no)
             Prey_old = np.tile(self.xbest, (self.SearchAgents_no, 1))
         else:
-            # TODO: 'file' is unused
-            with open(filename, "w") as file:
-                PSRs, S = parameters
-                dim = fitness_function.dim
-                self.xbest = np.zeros(dim)
-                self.fbest = np.inf
-                stepsize = np.zeros((self.SearchAgents_no, dim))
-                fitness = np.inf * np.ones(self.SearchAgents_no)
-                gazelle = self._initialization(
-                    self.SearchAgents_no, dim, domain[1], domain[0]
-                )
-                Xmin = np.tile(np.ones(dim) * domain[0], (self.SearchAgents_no, 1))
-                Xmax = np.tile(np.ones(dim) * domain[1], (self.SearchAgents_no, 1))
+            PSRs, S = parameters
+            dim = fitness_function.dim
+            self.xbest = np.zeros(dim)
+            self.fbest = np.inf
+            stepsize = np.zeros((self.SearchAgents_no, dim))
+            fitness = np.inf * np.ones(self.SearchAgents_no)
+            gazelle = self._initialization(
+                self.SearchAgents_no, dim, domain[1], domain[0]
+            )
+            Xmin = np.tile(np.ones(dim) * domain[0], (self.SearchAgents_no, 1))
+            Xmax = np.tile(np.ones(dim) * domain[1], (self.SearchAgents_no, 1))
 
-                Iter = 0
-                s = np.random.rand()
+            Iter = 0
+            s = np.random.rand()
 
         for i in range(gazelle.shape[0]):
             Flag4ub = gazelle[i, :] > domain[1]

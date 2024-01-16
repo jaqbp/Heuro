@@ -19,6 +19,11 @@ const testFunctions = [
     name: "Funkcja Himmelblau",
     formula: "TODO:",
   },
+  {
+    id: 4,
+    name: "Twoja własna funkcja",
+    formula: "",
+  },
 ];
 
 const algorithms = [
