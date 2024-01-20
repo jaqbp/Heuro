@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Heuro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/index-style.css') }}"
@@ -26,23 +32,17 @@
     <section id="main-content">
       <div class="box">
         <h2>wybierz funkcje testowe</h2>
+        <hr />
         <div id="test-functions-list"></div>
       </div>
       <div class="box">
         <h2>wybierz algorytmy</h2>
+        <hr />
         <div id="algorithms-list"></div>
-      </div>
-      <div class="box">
-        <h3>Wybrane Funkcje Testowe:</h3>
-        <pre id="selected-functions"></pre>
-      </div>
-      <div class="box">
-        <h3>Wybrane Algorytmy:</h3>
-        <pre id="selected-algorithms"></pre>
       </div>
     </section>
     <div class="box forward-button">
-      <button class="continue-btn">Continue</button>
+      <button class="continue-btn" disabled>Continue</button>
       <pre id="forward"></pre>
     </div>
     <footer>
@@ -52,6 +52,10 @@
         alt="silesian-ginger-icon"
       />
     </footer>
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script
+      src="{{ url_for('static', filename='js/index.js') }}"
+      defer
+      type="module"
+    ></script>
   </body>
 </html>
