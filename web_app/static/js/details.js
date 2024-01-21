@@ -174,6 +174,8 @@ submitButton.addEventListener("click", async () => {
     }),
   });
 
+  console.log(res);
+
   if (!res.ok) {
     throw new Error("Error while setting details");
   }

@@ -191,7 +191,7 @@ class GOA(IOptimizationAlgorithm):
         parameters: list[float],
         numberOfTests: int,
         data=defaultdict(list),
-    ) -> None:
+    ):
         best_y = math.inf
         best_X = None
         curr_ys = []
@@ -234,3 +234,4 @@ class GOA(IOptimizationAlgorithm):
         data["Coefficient of variation of goal function value"].append(
             np.round(np.std(curr_ys) / np.mean(curr_ys) * 100, 2).tolist()
         )
+        return data
