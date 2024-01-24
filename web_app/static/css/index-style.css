@@ -1,4 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Prompt:wght@100&family=Raleway:wght@100&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#submit-btn {
+  padding: 1rem 2rem;
+}
 
 body {
   font-family: "Raleway", sans-serif;
@@ -50,7 +58,7 @@ ul li {
 #main-content {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: repeat(1, 1fr);
   grid-gap: 2rem;
   padding: 2em;
 
@@ -60,29 +68,24 @@ ul li {
 }
 
 .forward-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 2rem 2rem;
-  text-align: center;
   font-size: 16px;
-  cursor: pointer;
 }
 
-.forward-button:hover {
-  background-color: #555;
-  transition:
-    background-color 0.3s,
-    transform 0.3s;
+.function-info {
+  display: flex;
 }
 
-/* .button-container {
-    width: 100%;
-    display: inline-block;
-    justify-content: flex-end; 
-    padding-top: 1em; 
-    padding-right: 4em;
-    padding-bottom: 1em;
-} */
+.algorithm-info {
+  display: flex;
+}
 
 .box {
+  flex: 1;
+  align-items: center;
   border: 1px solid #666;
   padding: 1em;
   box-sizing: border-box;
@@ -91,8 +94,13 @@ ul li {
 }
 
 .box h2 {
-  border-bottom: 1px solid #888;
-  padding-bottom: 0.5em;
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.box hr {
+  margin-bottom: 1rem;
 }
 
 .box label {
@@ -104,8 +112,40 @@ ul li {
   color: #fff;
 }
 
+.input-div {
+  padding: 2rem;
+  text-align: center;
+}
+
+.input-div input[type="number"] {
+  width: 320px;
+  height: 50px;
+  font-size: 32px;
+  background-color: #666;
+  color: black;
+}
+
 .box input[type="checkbox"] {
   margin-right: 8px;
+}
+
+#submit-btn {
+  margin: 2rem 2rem;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #333;
+  color: #fff;
+  &:hover {
+    background-color: #555;
+    transition:
+      background-color 0.3s,
+      transform 0.3s;
+  }
+}
+
+.footer {
+  margin-top: auto;
 }
 
 footer p {
@@ -152,11 +192,55 @@ img {
     cursor: pointer;
     font-size: 1.5rem;
   }
-  &:hover {
+  &:hover:enabled {
     background-color: #555;
     transition: background-color 0.3s;
   }
   &:disabled {
     cursor: not-allowed;
   }
+}
+
+.functions-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.algorithms-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #161515;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  text-align: center;
+}
+
+#pauseBtn {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#pauseBtn:hover {
+  background-color: #d32f2f;
 }

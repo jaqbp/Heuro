@@ -21,5 +21,15 @@ test_function_callbacks: list[Callable[[Optional[int]], TestFunction]] = [
 
 
 def get_function_obj(dimension: int, domain: int, id: int) -> TestFunction:
+    if id == 4:
+        try:
+            from dll.custom_function import TestFunction  # type: ignore
+
+            print("loaded dll")
+            return TestFunction(
+                -np.array([domain]), np.array([domain]), dimension, "Custom function"
+            )
+        except ModuleNotFoundError as e:
+            print(e)
     # TODO: add domain
     return test_function_callbacks[id](dimension)
