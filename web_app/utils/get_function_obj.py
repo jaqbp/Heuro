@@ -31,5 +31,4 @@ def get_function_obj(dimension: int, domain: int, id: int) -> TestFunction:
             )
         except ModuleNotFoundError as e:
             print(e)
-    # TODO: add domain
     return test_function_callbacks[id](dimension)
