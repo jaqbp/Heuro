@@ -43,7 +43,7 @@ class Transformator12:
         for k in range(n - 1):
             for i in range(k + 1, n):
                 tmp = tmpA[i, k] / tmpA[k, k]
-                for j in range(k, n+1):
+                for j in range(k, n + 1):
                     tmpA[i, j] -= tmp * tmpA[k, j]
 
         for k in range(n - 1, -1, -1):
@@ -89,8 +89,15 @@ class Transformator12:
         self.a[7, 4] = -1 / self.d[6]
         self.a[7, 5] = -1 / self.d[8]
         self.a[7, 6] = -1 / self.d[10]
-        self.a[7, 7] = 1/ self.d[0] + 1 / self.d[2] + 1 / self.d[4] + 1 / self.d[6] + 1 / self.d[8] + 1 / self.d[10] + 1 / self.R
-
+        self.a[7, 7] = (
+            1 / self.d[0]
+            + 1 / self.d[2]
+            + 1 / self.d[4]
+            + 1 / self.d[6]
+            + 1 / self.d[8]
+            + 1 / self.d[10]
+            + 1 / self.R
+        )
 
     def LiczWymuszenia(self, u: np.ndarray) -> None:
         self.w[0] = -u[3] / self.Rz[3] - u[4] / self.Rz[4] - u[5] / self.Rz[5]
@@ -102,20 +109,19 @@ class Transformator12:
         self.w[6] = u[2] / self.Rz[2] - u[1] / self.Rz[1]
         self.w[7] = 0.0
 
-
     def LiczUD(self, v: np.ndarray) -> None:
         self.uD[0] = v[1] - v[7]
-        self.uD[1] = -v[1];
-        self.uD[2] = v[2] - v[7];
-        self.uD[3] = -v[2];
-        self.uD[4] = v[3] - v[7];
-        self.uD[5] = -v[3];
-        self.uD[6] = v[4] - v[7];
-        self.uD[7] = -v[4];
-        self.uD[8] = v[5] - v[7];
-        self.uD[9] = -v[5];
-        self.uD[10] = v[6] - v[7];
-        self.uD[11] = -v[6];
+        self.uD[1] = -v[1]
+        self.uD[2] = v[2] - v[7]
+        self.uD[3] = -v[2]
+        self.uD[4] = v[3] - v[7]
+        self.uD[5] = -v[3]
+        self.uD[6] = v[4] - v[7]
+        self.uD[7] = -v[4]
+        self.uD[8] = v[5] - v[7]
+        self.uD[9] = -v[5]
+        self.uD[10] = v[6] - v[7]
+        self.uD[11] = -v[6]
 
     def Test(self) -> bool:
         for i in range(self.iloscPulsow):

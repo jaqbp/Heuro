@@ -22,7 +22,23 @@ class ObjectiveFunction:
 
         self.t12.R = 15
 
-        self.GenerujNapiecieSieci2(100.0, 100.0, 100.0, 1.5, 2.3, 1.2, 2.2, 0.5, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+        self.GenerujNapiecieSieci2(
+            100.0,
+            100.0,
+            100.0,
+            1.5,
+            2.3,
+            1.2,
+            2.2,
+            0.5,
+            1.1,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+        )
 
         for i in range(self.n):
             self.u[0, i] = self.uabc[i][0]
