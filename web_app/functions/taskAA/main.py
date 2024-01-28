@@ -15,10 +15,12 @@ def calculate_and_print(x1, x2, x3):
     return best_y
 
 if __name__ == "__main__":
-    of = ObjectiveFunction()
+    of = ObjectiveFunction(0.5, 1.5, 3)
 
     # Obliczenie wartości w dowolnym punkcie
-    # y = of.FunkcjaCelu.Wartosc(1.26, 1.3, 1.1)
+    y = of.FunkcjaCelu.Wartosc(1.1, 1.05, 0.98)
+    print(y)
+    exit(0)
     # print(f"Wartość funkcji w punkcie (1.26, 1.3, 1.1) wynosi: {y}")
 
     # Wartość referencyjna dla trzech jedynek

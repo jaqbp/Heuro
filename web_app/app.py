@@ -41,9 +41,12 @@ def add_function_and_algorithm():
 
 
 def process_function_details(details, algorithm):
-    functionId = int(details["id"])
-    domain = int(details["domain"])
-    dimension = int(details["dimension"])
+    if len(details) == 0:
+        functionId = 5
+    else:
+        functionId = int(details["id"])
+        domain = int(details["domain"])
+        dimension = int(details["dimension"])
     numberOfIterations = int(algorithm["numberOfIterations"])
     population = int(algorithm["population"])
     test_function = get_function_obj(dimension, domain, functionId)
@@ -59,20 +62,6 @@ def generate_text_report():
     MULTIPROCESSING = True
     try:
         json = request.get_json()
-<<<<<<< HEAD
-        domain = int(json["domain"])
-        dimension = int(json["dimension"])
-        numberOfIterations = int(json["numberOfIterations"])
-        population = int(json["population"])
-        functionId = int(session.get("functionId"))
-        algorithmId = int(session.get("algorithmId"))
-        test_function = get_function_obj(dimension, domain, functionId)
-        goa_algorithm = GOA(SearchAgents_no=population, Max_iter=numberOfIterations)
-        TESTS = 10
-        data = goa_algorithm.calculate_function_data(test_function, [0.34, 0.88], TESTS)
-        print(data)
-        return jsonify({"response": data}), 200
-=======
         # [{id, domain, dimension}]
         functionsDetails = json["functionsDetails"]
         algorithmsDetails = json["algorithmsDetails"]
@@ -100,7 +89,6 @@ def generate_text_report():
                 out_data[k].extend(v)
         print(out_data)
         return jsonify({"response": out_data}), 200
->>>>>>> d6b20a49d121710af322193ac7c9ff9a85f9a0fc
     except Exception as e:
         print(str(e))
         return jsonify({"error": str(e)}), 400

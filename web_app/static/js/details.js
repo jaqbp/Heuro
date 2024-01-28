@@ -72,6 +72,10 @@ function createBox(label, parentNode, id, inputName) {
 }
 
 function createFunctionSection(f) {
+  if (f.id === 5) {
+    functionsDetails.push({ id: f.id, domain: 0, dimension: 0 });
+    return;
+  }
   const functionsSection =
     document.getElementsByClassName("functions-section")[0];
 
@@ -119,6 +123,7 @@ const modalText = document.getElementById("modalText");
 let isRunning = true;
 let isModalOpen = false;
 let time = 0;
+const functionsDetails = [];
 
 submitButton.addEventListener("click", async () => {
   modal.style.display = "block";
@@ -127,7 +132,6 @@ submitButton.addEventListener("click", async () => {
     document.getElementsByClassName("functions-section")[0];
   const functionsInfo =
     functionsSection.getElementsByClassName("function-info");
-  const functionsDetails = [];
   for (const info of functionsInfo) {
     const inputs = info.getElementsByTagName("input");
     const functionDetail = {};

@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-from Transformator12 import Transformator12
+from functions.taskAA.Transformator12 import Transformator12
 
 
 class FunkcjaCelu12:

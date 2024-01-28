@@ -2,12 +2,15 @@ import math
 
 import numpy as np
 
-from FunkcjaCelu12 import FunkcjaCelu12
-from Transformator12 import Transformator12
+from functions.taskAA.FunkcjaCelu12 import FunkcjaCelu12
+from functions.taskAA.Transformator12 import Transformator12
+from functions.base import TestFunction
 
 
-class ObjectiveFunction:
-    def __init__(self):
+class ObjectiveFunction(TestFunction):
+    def __init__(self, lb, ub, dim):
+        super().__init__(lb, ub, dim, "ObjectiveFunction")
+
         self.n = 401
         self.deltaT = 0.00005
 
@@ -52,7 +55,9 @@ class ObjectiveFunction:
         self.a = [0.5, 0.5, 0.5]
         self.b = [1.5, 1.5, 1.5]
 
-        self.FunkcjaCelu = FunkcjaCelu12(self.u, 401, self.t12, self.deltaT)
+    def fobj(self, x):
+        FunkcjaCelu = FunkcjaCelu12(self.u, 401, self.t12, self.deltaT)
+        return FunkcjaCelu.Wartosc(*x)
 
     def GenerujNapiecieSieci2(self, *param: float) -> None:
         t = 0.0

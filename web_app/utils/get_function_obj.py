@@ -3,6 +3,7 @@ from functions.himmelblau import HimmelblauFunction
 from functions.rosenbrock import RosenbrockFunction
 from functions.bukin import BukinFunction
 from functions.rastrigin import RastriginFunction
+from functions.taskAA.ObjectiveFunction import ObjectiveFunction
 from typing import Callable, Optional
 
 import numpy as np
@@ -31,4 +32,6 @@ def get_function_obj(dimension: int, domain: int, id: int) -> TestFunction:
             )
         except ModuleNotFoundError as e:
             print(e)
+    elif id == 5:
+        return ObjectiveFunction(np.array([0.5]), np.array([1.5]), 3)
     return test_function_callbacks[id](dimension)
