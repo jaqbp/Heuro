@@ -223,8 +223,8 @@ class GOA(IOptimizationAlgorithm):
         data["Param 'PSRs'"].append(0.34)
         data["Param 'S'"].append(0.88)
         data["Found minimum"].append(np.round(best_X, 2).tolist())
-        data["Goal function best value"].append(np.round(best_y))
-        data["Goal function worst value"].append(np.round(np.max(curr_ys)).tolist())
+        data["Goal function best value"].append(np.round(best_y, 5))
+        data["Goal function worst value"].append(np.round(np.max(curr_ys), 5).tolist())
         data["Standard deviation of the parameters"].append(
             np.round(std_deviations_of_Xs, 2).tolist()
         )
