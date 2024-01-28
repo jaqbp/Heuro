@@ -24,6 +24,11 @@ export const testFunctions = [
     name: "Twoja własna funkcja",
     formula: "",
   },
+  {
+    id: 5,
+    name: "Objective function",
+    formula: "",
+  },
 ];
 
 export const algorithms = [

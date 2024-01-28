@@ -1,11 +1,16 @@
 import math
+
 import numpy as np
-from FunkcjaCelu12 import FunkcjaCelu12
-from Transformator12 import Transforamtor12
+
+from functions.taskAA.FunkcjaCelu12 import FunkcjaCelu12
+from functions.taskAA.Transformator12 import Transformator12
+from functions.base import TestFunction
 
 
-class ObjectiveFunction:
-    def __init__(self):
+class ObjectiveFunction(TestFunction):
+    def __init__(self, lb, ub, dim):
+        super().__init__(lb, ub, dim, "ObjectiveFunction")
+
         self.n = 401
         self.deltaT = 0.00005
 
@@ -14,29 +19,29 @@ class ObjectiveFunction:
         self.wsp = math.sin(7.5 * math.pi / 180.0) / math.sin(52.5 * math.pi / 180.0)
         self.uabc = np.zeros((self.n, 3))
 
-        self.GenerujNapiecieSieci2(
-            [
-                100.0,
-                100.0,
-                100.0,
-                1.5,
-                2.3,
-                1.2,
-                2.2,
-                0.5,
-                1.1,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-            ]
-        )
-
-        self.t12 = Transforamtor12(self.n)
+        self.t12 = Transformator12(self.n)
         self.u = np.zeros((6, self.n))
         self.t = 0
+
+        self.t12.R = 15
+
+        self.GenerujNapiecieSieci2(
+            100.0,
+            100.0,
+            100.0,
+            1.5,
+            2.3,
+            1.2,
+            2.2,
+            0.5,
+            1.1,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+        )
 
         for i in range(self.n):
             self.u[0, i] = self.uabc[i][0]
@@ -47,13 +52,16 @@ class ObjectiveFunction:
             self.u[5, i] = self.u[2, i] / math.sqrt(3.0)
             self.t += self.deltaT
 
-        a = [0.5, 0.5, 0.5]
-        b = [1.5, 1.5, 1.5]
+        self.a = [0.5, 0.5, 0.5]
+        self.b = [1.5, 1.5, 1.5]
 
-        self.FunkcjaCelu = FunkcjaCelu12(self.u, 401, self.t12, self.deltaT)
+    def fobj(self, x):
+        FunkcjaCelu = FunkcjaCelu12(self.u, 401, self.t12, self.deltaT)
+        return FunkcjaCelu.Wartosc(*x)
 
-    def GenerujNapiecieSieci2(self, param):
+    def GenerujNapiecieSieci2(self, *param: float) -> None:
         t = 0.0
+        # res = "" # unused
         for i in range(self.n):
             self.uabc[i] = [
                 param[0] * math.sin(self.omega * t)
