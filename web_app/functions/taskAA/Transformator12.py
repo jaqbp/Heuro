@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Union
 
 
 class Transformator12:
@@ -25,7 +26,7 @@ class Transformator12:
         return self.prady
 
     @property
-    def V(self) -> float | None:
+    def V(self) -> Union[float, None]:
         return self.v[7] if self.v is not None else None
 
     def GaussElimination(self, A: np.ndarray, b: np.ndarray, n: int) -> float:
