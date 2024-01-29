@@ -199,7 +199,8 @@ class GOA(IOptimizationAlgorithm):
         if os.path.exists("pause.txt"):
             os.remove("pause.txt")
 
-        for _ in range(int(self.Max_iter)):
+        for i in range(int(self.Max_iter)):
+            print(f"Iteration: {i}")
             X, y = self.solve(fitness_function, parameters)
             curr_ys.append(y)
             all_curr_X.append(X[:])
@@ -222,16 +223,19 @@ class GOA(IOptimizationAlgorithm):
         data["I"].append(self.Max_iter)
         data["Param 'PSRs'"].append(0.34)
         data["Param 'S'"].append(0.88)
-        data["Found minimum"].append(np.round(best_X, 5).tolist())
-        data["Goal function best value"].append(np.round(best_y, 5))
-        data["Goal function worst value"].append(np.round(np.max(curr_ys), 5).tolist())
-        data["Standard deviation of the parameters"].append(
-            np.round(std_deviations_of_Xs, 2).tolist()
-        )
+        print(1)
+        data["Found minimum"].append(best_X.tolist())
+        data["Goal function best value"].append(best_y)
+        print(2)
+        data["Goal function worst value"].append(np.max(curr_ys).tolist())
+        print(3)
+        data["Standard deviation of the parameters"].append(std_deviations_of_Xs)
+        print(4)
         data["Standard deviation of the goal function value"].append(
-            np.round(np.std(curr_ys), 2).tolist()
+            np.std(curr_ys).tolist()
         )
+        print(5)
         data["Coefficient of variation of goal function value"].append(
-            np.round(np.std(curr_ys) / np.mean(curr_ys) * 100, 2).tolist()
+            (np.std(curr_ys) / np.mean(curr_ys) * 100).tolist()
         )
         return data

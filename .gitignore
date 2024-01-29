@@ -1,6 +1,7 @@
 __pycache__/
 .idea/
 *.txt
+!wyniki.txt
 build/
 *.c
 *.pyd
